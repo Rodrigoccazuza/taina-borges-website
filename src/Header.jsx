@@ -1,4 +1,4 @@
-/* global React, Icon, Button, TBMark, useLanguage, LanguageToggle */
+/* global React, ReactDOM, Icon, Button, TBMark, useLanguage, LanguageToggle */
 const { useState, useEffect } = React;
 
 function Header({ scrolled, openBooking, scrollTo, active }) {
@@ -6,6 +6,18 @@ function Header({ scrolled, openBooking, scrollTo, active }) {
   const { isPortuguese } = useLanguage();
   const onLight = scrolled;
   const fg = onLight ? 'var(--asphalt)' : 'var(--limestone)';
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    const onKeyDown = (event) => { if (event.key === 'Escape') setMenuOpen(false); };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [menuOpen]);
 
   const navItems = isPortuguese ? [
     { id: 'work', label: 'trabalhos', href: 'Projects.html' }, { id: 'about', label: 'sobre' },
@@ -72,17 +84,18 @@ function Header({ scrolled, openBooking, scrollTo, active }) {
         </div>
       </div>
 
-      {menuOpen && (
+      {menuOpen && ReactDOM.createPortal((
         <div className="tb-mobile-menu" style={{
           position: 'fixed', inset: 0, background: 'var(--asphalt)', color: 'var(--limestone)',
-          padding: 32, display: 'flex', flexDirection: 'column', gap: 24, zIndex: 200,
+          padding: 32, display: 'flex', flexDirection: 'column', gap: 24, zIndex: 1000,
+          overflowY: 'auto', overscrollBehavior: 'contain', touchAction: 'pan-y',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 12 }}>
               <TBMark size={22} variant="dark" />
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20 }}>taína borges<span style={{ color: 'var(--taxi)' }}>.</span></span>
             </span>
-            <button onClick={() => setMenuOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--limestone)', cursor: 'pointer' }}><Icon name="x" size={22}/></button>
+            <button onClick={() => setMenuOpen(false)} aria-label={isPortuguese ? 'Fechar menu' : 'Close menu'} style={{ width: 44, height: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: '1px solid rgba(232,226,212,.25)', borderRadius: 999, color: 'var(--limestone)', cursor: 'pointer' }}><Icon name="x" size={22}/></button>
           </div>
           <div style={{ alignSelf: 'flex-start' }}><LanguageToggle dark /></div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 24 }}>
@@ -93,7 +106,10 @@ function Header({ scrolled, openBooking, scrollTo, active }) {
                 color: 'var(--limestone)', cursor: 'pointer', padding: 0, lineHeight: 1.05,
               }}>{it.label}</a>
             ) : (
-              <button className="tb-mobile-menu-link" key={it.id} onClick={() => { scrollTo(it.id); setMenuOpen(false); }} style={{
+              <button className="tb-mobile-menu-link" key={it.id} onClick={() => {
+                setMenuOpen(false);
+                window.setTimeout(() => scrollTo(it.id), 0);
+              }} style={{
                 background: 'transparent', border: 'none', textAlign: 'left',
                 fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 44, letterSpacing: '-0.04em',
                 color: 'var(--limestone)', cursor: 'pointer', padding: 0, lineHeight: 1.05,
@@ -106,7 +122,7 @@ function Header({ scrolled, openBooking, scrollTo, active }) {
             </Button>
           </div>
         </div>
-      )}
+      ), document.body)}
 
       <style>{`
         @media (max-width: 980px) {

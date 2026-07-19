@@ -1,12 +1,26 @@
-/* global React, Eyebrow, Reveal, Icon, Button, Grain, TBMark, BookingModal, WhatsAppFloating, Footer */
+/* global React, ReactDOM, Eyebrow, Reveal, Icon, Button, Grain, TBMark, BookingModal, WhatsAppFloating, Footer */
 const { useState, useEffect, useMemo } = React;
 
 // ─────────────────────────────────────────────────────────────
 // Lightweight header for the Projects page (links back to home)
 // ─────────────────────────────────────────────────────────────
 function ProjectsHeader({ scrolled, openBooking }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const onLight = scrolled;
   const fg = onLight ? 'var(--asphalt)' : 'var(--limestone)';
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    const onKeyDown = (event) => { if (event.key === 'Escape') setMenuOpen(false); };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [menuOpen]);
+
   return (
     <header style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
@@ -36,13 +50,47 @@ function ProjectsHeader({ scrolled, openBooking }) {
           </Button>
         </nav>
 
-        <a href="Taina Borges Website.html" className="tb-burger" style={{
-          display: 'none', alignItems: 'center', gap: 6, color: fg, textDecoration: 'none',
-          fontFamily: 'var(--font-sans)', fontSize: 14,
-        }}>
-          <Icon name="arrow-left" size={16} /> home
-        </a>
+        <button type="button" onClick={() => setMenuOpen(true)} className="tb-burger" aria-label="Open menu" style={{
+          display: 'none', alignItems: 'center', justifyContent: 'center', width: 44, height: 44,
+          color: fg, background: 'transparent', border: 0, cursor: 'pointer', padding: 0,
+        }}><Icon name="menu" size={22} /></button>
       </div>
+
+      {menuOpen && ReactDOM.createPortal((
+        <div className="tb-mobile-menu" style={{
+          position: 'fixed', inset: 0, zIndex: 1000, padding: 32,
+          display: 'flex', flexDirection: 'column', gap: 24,
+          color: 'var(--limestone)', background: 'var(--asphalt)',
+          overflowY: 'auto', overscrollBehavior: 'contain', touchAction: 'pan-y',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 12 }}>
+              <TBMark size={22} variant="dark" />
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20 }}>taína borges<span style={{ color: 'var(--taxi)' }}>.</span></span>
+            </span>
+            <button type="button" onClick={() => setMenuOpen(false)} aria-label="Close menu" style={{
+              width: 44, height: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              color: 'var(--limestone)', background: 'transparent', border: '1px solid rgba(232,226,212,.25)', borderRadius: 999, cursor: 'pointer',
+            }}><Icon name="x" size={22} /></button>
+          </div>
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 36 }}>
+            {[
+              ['home', 'Taina Borges Website.html'],
+              ['about', 'Taina Borges Website.html#about'],
+              ['pricing', 'Taina Borges Website.html#pricing'],
+              ['contact', 'Taina Borges Website.html#contact'],
+            ].map(([label, href]) => (
+              <a className="tb-mobile-menu-link" key={label} href={href} style={{
+                color: 'var(--limestone)', textDecoration: 'none', fontFamily: 'var(--font-display)',
+                fontWeight: 900, fontSize: 44, letterSpacing: '-.04em', lineHeight: 1.05,
+              }}>{label}</a>
+            ))}
+          </nav>
+          <div style={{ marginTop: 'auto' }}>
+            <Button variant="accent" size="lg" full onClick={() => { setMenuOpen(false); openBooking(); }} icon={<Icon name="arrow-up-right" size={16} />}>Book a call</Button>
+          </div>
+        </div>
+      ), document.body)}
       <style>{`
         @media (max-width: 820px) {
           .tb-nav { display: none !important; }

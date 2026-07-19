@@ -198,6 +198,10 @@ button, a, input, textarea { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 600px) {
   header { padding: 11px 16px !important; }
   header button:first-child span:last-child { font-size: 17px !important; }
+  .tb-mobile-menu {
+    padding: max(18px, env(safe-area-inset-top)) 18px max(20px, env(safe-area-inset-bottom)) !important;
+  }
+  .tb-mobile-menu-link { font-size: clamp(34px, 11vw, 44px) !important; }
 
   section:not(#top) {
     padding-left: 18px !important;
