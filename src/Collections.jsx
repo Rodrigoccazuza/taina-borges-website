@@ -63,6 +63,7 @@ function CollectionCard({ collection, delay, onOpenPhoto }) {
   return (
     <Reveal delay={delay}>
       <a
+        className="tb-collection-card"
         href={`Projects.html#${collection.id}`}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
@@ -76,7 +77,7 @@ function CollectionCard({ collection, delay, onOpenPhoto }) {
           transition: 'box-shadow 320ms var(--ease-out)',
         }}
       >
-        <div style={{
+        <div className="tb-collection-image" style={{
           position: 'absolute', inset: 0,
           backgroundImage: `url(${collection.src})`,
           backgroundSize: 'cover', backgroundPosition: 'center',

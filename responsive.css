@@ -1,0 +1,358 @@
+/* Tainá Borges — shared responsive layer for home and projects pages. */
+
+html { -webkit-text-size-adjust: 100%; }
+img { max-width: 100%; }
+button, a, input, textarea { -webkit-tap-highlight-color: transparent; }
+
+/* Motion language: soft entrances, responsive controls, cinematic images. */
+.tb-reveal {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition: opacity 720ms var(--ease-out) var(--tb-reveal-delay, 0ms), transform 880ms var(--ease-cinematic) var(--tb-reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.tb-reveal.tb-reveal-visible { opacity: 1; transform: translate3d(0, 0, 0); will-change: auto; }
+.tb-eyebrow-line { transform-origin: left center; animation: tbLineBreathe 2.8s var(--ease-out) infinite alternate; }
+
+.tb-button { position: relative; overflow: hidden; isolation: isolate; }
+.tb-button::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: rgba(255,255,255,.16);
+  transform: translateX(-105%) skewX(-14deg);
+  transition: transform 520ms var(--ease-cinematic);
+}
+.tb-button:hover::before { transform: translateX(105%) skewX(-14deg); }
+.tb-button:hover { transform: translateY(-2px); }
+.tb-button-icon { transition: transform 320ms var(--ease-out); }
+.tb-button:hover .tb-button-icon { transform: translate(2px, -2px); }
+
+.tb-header { backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0); }
+.tb-header-scrolled {
+  backdrop-filter: blur(14px) saturate(1.15); -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  box-shadow: 0 8px 28px -24px rgba(22,21,19,.7);
+}
+.tb-nav-link { position: relative; }
+.tb-nav-link::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+  background: currentColor; transform: scaleX(0); transform-origin: right center;
+  transition: transform 320ms var(--ease-cinematic);
+}
+.tb-nav-link:hover { opacity: 1 !important; }
+.tb-nav-link:hover::after { transform: scaleX(1); transform-origin: left center; }
+
+.tb-mobile-menu { animation: tbMenuIn 440ms var(--ease-cinematic) both; }
+.tb-mobile-menu-link { animation: tbMenuLinkIn 520ms var(--ease-cinematic) both; }
+.tb-mobile-menu-link:nth-child(2) { animation-delay: 45ms; }
+.tb-mobile-menu-link:nth-child(3) { animation-delay: 90ms; }
+.tb-mobile-menu-link:nth-child(4) { animation-delay: 135ms; }
+.tb-mobile-menu-link:nth-child(5) { animation-delay: 180ms; }
+.tb-mobile-menu-link:nth-child(6) { animation-delay: 225ms; }
+
+.tb-collection-card { transition: box-shadow 420ms var(--ease-out), transform 520ms var(--ease-cinematic) !important; }
+.tb-collection-card:hover { transform: translateY(-6px); }
+.tb-collection-image { transform-origin: center 42%; }
+.tb-about-photo { animation: tbAmbientPhoto 14s ease-in-out infinite alternate; transform-origin: 64% 28%; }
+.tb-testimonial-row > div:last-child, .tb-pricing-grid > div, .tb-project-tile {
+  transition: transform 520ms var(--ease-cinematic), box-shadow 420ms var(--ease-out);
+}
+.tb-pricing-grid > div:hover { transform: translateY(-7px); }
+
+@keyframes tbLineBreathe { from { transform: scaleX(.55); opacity: .58; } to { transform: scaleX(1); opacity: 1; } }
+@keyframes tbMenuIn { from { opacity: 0; clip-path: inset(0 0 100% 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+@keyframes tbMenuLinkIn { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes tbAmbientPhoto { from { transform: scale(1.02) translate3d(0,0,0); } to { transform: scale(1.075) translate3d(-.8%,-.5%,0); } }
+
+@media (max-width: 1024px) {
+  header { padding: 14px 24px !important; }
+
+  section:not(#top) {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  section#work,
+  section#collections,
+  section#testimonials,
+  section#pricing,
+  section#contact {
+    padding-top: 92px !important;
+    padding-bottom: 92px !important;
+  }
+
+  section h2 { line-height: .96 !important; }
+
+  .tb-hero-content {
+    padding: 104px 24px 88px !important;
+  }
+
+  .tb-hero-actions-row { gap: 24px !important; }
+  .tb-hero-actions-row > p { max-inline-size: 34ch !important; }
+
+  .tb-about-layout {
+    grid-template-columns: minmax(0, 1.25fr) minmax(250px, .75fr) !important;
+    gap: 38px !important;
+    padding: 104px 24px 72px !important;
+  }
+
+  .tb-contact-grid,
+  .tb-testimonial-row {
+    grid-template-columns: 1fr !important;
+    gap: 42px !important;
+  }
+
+  .tb-testimonial-row > div:last-child {
+    width: min(100%, 560px);
+    justify-self: center;
+  }
+
+  .tb-pricing-grid { grid-template-columns: 1fr !important; }
+  .tb-pricing-grid > div { max-width: 760px; width: 100%; margin-inline: auto; }
+  .tb-foot-grid { grid-template-columns: 1.4fr 1fr !important; }
+
+  .tb-project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 14px !important; }
+  .tb-proj-head { grid-template-columns: 1fr !important; }
+  .tb-proj-head > div:last-child {
+    align-items: flex-start;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 18px !important;
+    text-align: left !important;
+  }
+  .tb-proj-head > div:last-child span { justify-content: flex-start !important; }
+}
+
+@media (max-width: 820px) {
+  #top {
+    height: 100svh !important;
+    min-height: 640px !important;
+  }
+
+  .tb-hero-content {
+    padding: 92px 22px 76px !important;
+  }
+
+  .tb-hero-copy h1 {
+    font-size: clamp(45px, 10.6vw, 74px) !important;
+    line-height: .91 !important;
+    max-inline-size: 11ch !important;
+  }
+
+  .tb-hero-actions-row {
+    align-items: flex-start !important;
+    flex-direction: column;
+    gap: 18px !important;
+    margin-top: 22px !important;
+  }
+
+  .tb-hero-actions-row > p {
+    font-size: 16px !important;
+    line-height: 1.42 !important;
+    max-inline-size: 34ch !important;
+  }
+
+  .tb-hero-image { background-position: var(--hero-mobile-position) !important; }
+
+  .tb-about-layout {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+    gap: 32px !important;
+    padding: 92px 24px 64px !important;
+    align-items: start !important;
+  }
+
+  #about { min-height: auto !important; }
+  .tb-about-photo {
+    background-position: 68% 22% !important;
+  }
+  .tb-about-side-shade {
+    background: linear-gradient(180deg, rgba(11,10,9,.52) 0%, rgba(11,10,9,.70) 34%, rgba(11,10,9,.94) 68%, rgba(11,10,9,.98) 100%) !important;
+  }
+  .tb-about-edge-shade {
+    background: linear-gradient(180deg, rgba(11,10,9,.22), transparent 22%, rgba(11,10,9,.76) 62%, rgba(11,10,9,.96)) !important;
+  }
+  .tb-about-copy { max-width: 640px; }
+  .tb-about-facts { max-width: 560px; }
+
+  .tb-collections-grid { grid-template-columns: 1fr !important; }
+  .tb-gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    height: 82svh !important;
+    min-height: 600px !important;
+    gap: 10px !important;
+  }
+
+  .tb-brick-reveal { min-height: 72svh !important; }
+  .tb-foot-grid { grid-template-columns: 1fr 1fr !important; }
+
+  .tb-booking-backdrop {
+    align-items: flex-end !important;
+    padding: 12px !important;
+  }
+  .tb-booking-dialog {
+    width: 100% !important;
+    max-height: 94svh !important;
+    border-radius: 8px 8px 3px 3px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  header { padding: 11px 16px !important; }
+  header button:first-child span:last-child { font-size: 17px !important; }
+
+  section:not(#top) {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  section#work,
+  section#collections,
+  section#testimonials,
+  section#pricing,
+  section#contact {
+    padding-top: 68px !important;
+    padding-bottom: 68px !important;
+  }
+
+  section h2 {
+    font-size: clamp(34px, 10.5vw, 48px) !important;
+    line-height: .97 !important;
+    letter-spacing: -.035em !important;
+  }
+
+  section h3 {
+    font-size: clamp(27px, 8vw, 38px) !important;
+    line-height: 1.02 !important;
+  }
+
+  section p { font-size: 15px !important; }
+
+  #top { min-height: 620px !important; }
+  .tb-hero-content {
+    padding: 78px 16px 66px !important;
+  }
+  .tb-hero-content > div:first-child > span:last-child { display: none; }
+  .tb-hero-copy h1 {
+    font-size: clamp(40px, 12vw, 58px) !important;
+    max-inline-size: 10ch !important;
+  }
+  .tb-hero-actions-row > p {
+    font-size: 14px !important;
+    line-height: 1.38 !important;
+    max-inline-size: 31ch !important;
+  }
+  .tb-hero-buttons {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 8px !important;
+  }
+  .tb-hero-buttons > * {
+    min-width: 0 !important;
+    padding: 12px 10px !important;
+    justify-content: center !important;
+    font-size: 11px !important;
+  }
+  #top > div[style*="bottom: 36px"] { display: none; }
+  #top > div[style*="bottom: 32px"] { bottom: 18px !important; }
+
+  .tb-brick-reveal {
+    min-height: 66svh !important;
+    padding-top: 72px !important;
+    padding-bottom: 72px !important;
+  }
+  .tb-brick-reveal h3 {
+    font-size: clamp(48px, 16vw, 74px) !important;
+    line-height: .88 !important;
+  }
+  .tb-brick-reveal > div { gap: 44px !important; }
+
+  .tb-about-layout {
+    padding: 74px 18px 52px !important;
+    gap: 26px !important;
+  }
+  .tb-about-layout h2 { margin: 18px 0 22px !important; }
+  .tb-about-copy p { font-size: 14px !important; line-height: 1.55 !important; }
+  .tb-about-facts {
+    padding: 18px !important;
+    background: rgba(11,10,9,.68) !important;
+    backdrop-filter: blur(5px) !important;
+  }
+
+  .tb-gallery-grid {
+    height: 76svh !important;
+    min-height: 520px !important;
+  }
+  .tb-gallery-track { gap: 10px !important; }
+  .tb-gallery-caption { opacity: 1 !important; }
+
+  .tb-testimonial-row blockquote {
+    font-size: clamp(25px, 7.8vw, 36px) !important;
+    max-inline-size: 24ch !important;
+  }
+  .tb-testimonial-row > div:last-child { width: 100%; }
+
+  #pricing { padding: 70px 18px !important; }
+  .tb-pricing-grid > div > article > div {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  #contact form { grid-template-columns: 1fr !important; gap: 14px !important; }
+  #contact form > div { grid-column: 1 !important; }
+  #contact form > div:empty { display: none; }
+
+  .tb-foot-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
+  .tb-foot-end { align-items: flex-start !important; flex-direction: column; }
+
+  .tb-booking-backdrop { padding: 0 !important; }
+  .tb-booking-dialog {
+    max-height: 100svh !important;
+    border-radius: 0 !important;
+  }
+  .tb-booking-header { padding: 14px 16px !important; }
+  .tb-booking-header > div > div > div:first-child { font-size: 8px !important; }
+  .tb-booking-header > div > div > div:last-child { font-size: 13px !important; }
+  .tb-booking-step { padding: 20px 16px !important; }
+  .tb-cal-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 6px !important; }
+  .tb-time-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .tb-booking-fields { grid-template-columns: 1fr !important; }
+
+  .tb-project-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .tb-proj-head { padding-bottom: 24px !important; margin-bottom: 24px !important; }
+  .tb-proj-head p { font-size: 15px !important; }
+
+  a[href*="wa.me"] {
+    right: 12px !important;
+    bottom: 12px !important;
+    width: 48px !important;
+    height: 48px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 380px) {
+  .tb-hero-copy h1 { font-size: 38px !important; }
+  .tb-hero-actions-row > p { display: none; }
+  .tb-cal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+
+@media (hover: none) {
+  .tb-project-overlay,
+  .tb-gallery-caption { opacity: 1 !important; }
+  .tb-button:hover,
+  .tb-collection-card:hover,
+  .tb-pricing-grid > div:hover { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tb-scroll-section { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .tb-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .tb-eyebrow-line,
+  .tb-about-photo,
+  .tb-mobile-menu,
+  .tb-mobile-menu-link { animation: none !important; }
+  .tb-button::before { display: none; }
+}

@@ -77,18 +77,18 @@ function BookingModal({ open, onClose }) {
   };
 
   return (
-    <div style={{
+    <div className="tb-booking-backdrop" style={{
       position: 'fixed', inset: 0, zIndex: 100,
       background: 'rgba(22,21,19,0.7)', animation: 'tbFadeIn 200ms var(--ease-out)',
       display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24,
     }} onClick={reset}>
-      <div onClick={e => e.stopPropagation()} style={{
+      <div className="tb-booking-dialog" onClick={e => e.stopPropagation()} style={{
         width: 'min(940px, 100%)', maxHeight: '92vh', overflow: 'auto',
         background: 'var(--limestone)', borderRadius: 4,
         boxShadow: '0 24px 60px -12px rgba(22,21,19,0.5)',
         animation: 'tbModalIn 320ms var(--ease-cinematic)',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px', borderBottom: '1px solid var(--hairline)' }}>
+        <div className="tb-booking-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px', borderBottom: '1px solid var(--hairline)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <TBMark size={28} variant="light" />
             <div>
@@ -113,7 +113,7 @@ function BookingModal({ open, onClose }) {
         ) : (
           <>
             {step === 0 && (
-              <div style={{ padding: 28 }}>
+              <div className="tb-booking-step" style={{ padding: 28 }}>
                 <Eyebrow>{isPortuguese ? 'passo 1 / 3 · escolha o dia' : 'step 1 / 3 · pick a day'}</Eyebrow>
                 <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: 30, letterSpacing: '-0.018em', margin: '12px 0 26px' }}>{isPortuguese ? 'qual dia funciona melhor?' : 'which day works?'}</h3>
                 <div className="tb-cal-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 8 }}>
@@ -141,13 +141,13 @@ function BookingModal({ open, onClose }) {
             )}
 
             {step === 1 && date != null && (
-              <div style={{ padding: 28 }}>
+              <div className="tb-booking-step" style={{ padding: 28 }}>
                 <button onClick={() => setStep(0)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--fg-3)', fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: 0 }}><Icon name="chevron-left" size={12}/> {isPortuguese ? 'voltar' : 'back'}</button>
                 <Eyebrow>{isPortuguese ? 'passo 2 / 3 · escolha o horário' : 'step 2 / 3 · pick a time'}</Eyebrow>
                 <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: 30, letterSpacing: '-0.018em', margin: '12px 0 26px' }}>
                   {days[date].dow}, {days[date].month} {days[date].day}
                 </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+                <div className="tb-time-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
                   {times.map(t => (
                     <button key={t} onClick={() => { setTime(t); setStep(2); }} style={{
                       padding: '14px 8px', borderRadius: 999,
@@ -165,13 +165,13 @@ function BookingModal({ open, onClose }) {
             )}
 
             {step === 2 && date != null && time && (
-              <div style={{ padding: 28 }}>
+              <div className="tb-booking-step" style={{ padding: 28 }}>
                 <button onClick={() => setStep(1)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--fg-3)', fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: 0 }}><Icon name="chevron-left" size={12}/> {isPortuguese ? 'voltar' : 'back'}</button>
                 <Eyebrow>{isPortuguese ? 'passo 3 / 3 · confirmar' : 'step 3 / 3 · confirm'}</Eyebrow>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(36px, 4vw, 52px)', letterSpacing: '-0.04em', lineHeight: 1, margin: '12px 0 24px' }}>
                   {days[date].dow}, {days[date].month} {days[date].day} · {time}
                 </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
+                <div className="tb-booking-fields" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
                   <input name="name" required maxLength="100" autoComplete="name" value={info.name} onChange={e => setInfo({ ...info, name: e.target.value })} placeholder={isPortuguese ? 'seu nome' : 'your name'} style={inpStyle}/>
                   <input name="email" required type="email" maxLength="160" autoComplete="email" value={info.email} onChange={e => setInfo({ ...info, email: e.target.value })} placeholder="email" style={inpStyle}/>
                 </div>

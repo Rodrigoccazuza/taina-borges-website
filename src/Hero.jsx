@@ -118,7 +118,7 @@ function Hero({ openBooking, scrollTo }) {
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none',
         background: 'linear-gradient(180deg, rgba(22,21,19,0.62) 0%, rgba(22,21,19,0.05) 22%, rgba(22,21,19,0.0) 50%, rgba(22,21,19,0.55) 78%, rgba(22,21,19,0.92) 100%)' }} />
 
-      <div style={{
+      <div className="tb-hero-content" style={{
         position: 'absolute', inset: 0, padding: '120px 32px 96px',
         maxWidth: 1440, margin: '0 auto', boxSizing: 'border-box',
         display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
@@ -135,7 +135,7 @@ function Hero({ openBooking, scrollTo }) {
         </div>
 
         {/* Headline block — animates only on first load, content stays fixed across slides */}
-        <div data-comment-anchor="0b9f845f6d-div-113-9">
+        <div className="tb-hero-copy" data-comment-anchor="0b9f845f6d-div-113-9">
           <h1 style={{
             margin: 0,
             fontFamily: 'var(--font-display)', fontWeight: 900,
@@ -148,7 +148,7 @@ function Hero({ openBooking, scrollTo }) {
             {isPortuguese ? <>Guarde o Momento<br />em Nova<br />York</> : <>Save the Moment<br />in New<br />York</>}<span style={{ color: 'var(--taxi)' }}>.</span>
           </h1>
 
-          <div style={{
+          <div className="tb-hero-actions-row" style={{
             display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
             gap: 32, marginTop: 32, flexWrap: 'wrap',
             opacity: 1
@@ -159,7 +159,7 @@ function Hero({ openBooking, scrollTo }) {
             }}>
               {isPortuguese ? 'pedras, concreto, o verde das árvores e o amarelo dos táxis — um registro autêntico da cidade e das pessoas que vivem cada momento nela.' : 'cobblestone, concrete, the green of trees and the yellow of cabs — an authentic record of the city and the people in it.'}
             </p>
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <div className="tb-hero-buttons" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <Button variant="accent" size="lg" href="Projects.html" icon={<Icon name="arrow-up-right" size={16} />}>
                 {isPortuguese ? 'Ver trabalhos' : 'See the work'}
               </Button>

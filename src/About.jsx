@@ -44,8 +44,8 @@ function About() {
         backgroundSize: 'cover', backgroundPosition: 'center 28%', transform: 'scale(1.02)',
       }} />
       <Grain opacity={0.055} blend="overlay" />
-      <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(11,10,9,.94) 0%, rgba(11,10,9,.78) 38%, rgba(11,10,9,.30) 68%, rgba(11,10,9,.12) 100%)' }} />
-      <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(11,10,9,.48), transparent 28%, rgba(11,10,9,.70))' }} />
+      <div className="tb-about-side-shade" aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(11,10,9,.94) 0%, rgba(11,10,9,.78) 38%, rgba(11,10,9,.30) 68%, rgba(11,10,9,.12) 100%)' }} />
+      <div className="tb-about-edge-shade" aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(11,10,9,.48), transparent 28%, rgba(11,10,9,.70))' }} />
 
       <div className="tb-about-layout" style={{
         position: 'relative', zIndex: 2, maxWidth: 1440, minHeight: '100vh', margin: '0 auto',
@@ -81,7 +81,7 @@ function About() {
         </div>
 
         <Reveal delay={160}>
-          <aside style={{ padding: 24, background: 'rgba(11,10,9,.46)', border: '1px solid rgba(244,239,229,.2)', backdropFilter: 'blur(8px)' }}>
+          <aside className="tb-about-facts" style={{ padding: 24, background: 'rgba(11,10,9,.46)', border: '1px solid rgba(244,239,229,.2)', backdropFilter: 'blur(8px)' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, marginBottom: 18, color: '#F4EFE5', fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase' }}>
               <span style={{ width: 8, height: 8, borderRadius: 99, background: '#5EC07E', boxShadow: '0 0 0 4px rgba(94,192,126,.2)' }} />
               {copy.available}

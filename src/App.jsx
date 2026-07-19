@@ -93,17 +93,14 @@ function App() {
       <style>{`
         .tb-scroll-section {
           opacity: 0;
-          transform: translateY(42px);
-          filter: blur(5px);
+          transform: translateY(24px) scale(.995);
           transition:
-            opacity 850ms var(--ease-out),
-            transform 950ms var(--ease-cinematic),
-            filter 850ms var(--ease-out);
+            opacity 700ms var(--ease-out),
+            transform 900ms var(--ease-cinematic);
         }
         .tb-scroll-section.tb-scroll-section-visible {
           opacity: 1;
-          transform: translateY(0);
-          filter: blur(0);
+          transform: translateY(0) scale(1);
         }
         @media (prefers-reduced-motion: reduce) {
           .tb-scroll-section {
@@ -124,7 +121,7 @@ function BrickReveal() {
   const tp = 1;
 
   return (
-    <section data-screen-label="03b Brick reveal" style={{
+    <section className="tb-brick-reveal" data-screen-label="03b Brick reveal" style={{
       position: 'relative', minHeight: '92vh', overflow: 'hidden',
       background: 'transparent',
       padding: '120px 32px',

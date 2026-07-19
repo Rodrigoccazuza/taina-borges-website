@@ -18,7 +18,7 @@ function Header({ scrolled, openBooking, scrollTo, active }) {
   ];
 
   return (
-    <header style={{
+    <header className={`tb-header${scrolled ? ' tb-header-scrolled' : ''}`} style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
       padding: '16px 32px',
       background: onLight ? 'rgba(232, 226, 212, 0.82)' : 'transparent',
@@ -43,14 +43,14 @@ function Header({ scrolled, openBooking, scrollTo, active }) {
         <nav className="tb-nav" style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
           <LanguageToggle dark={!onLight} />
           {navItems.map(it => it.href ? (
-            <a key={it.id} href={it.href} style={{
+            <a className="tb-nav-link" key={it.id} href={it.href} style={{
               background: 'transparent', padding: '4px 0', textDecoration: 'none',
               fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 14,
               color: fg, opacity: 0.6, borderBottom: '1px solid transparent',
               transition: 'opacity 180ms var(--ease-out), border-color 180ms var(--ease-out)',
             }}>{it.label}</a>
           ) : (
-            <button key={it.id} onClick={() => scrollTo(it.id)} style={{
+            <button className="tb-nav-link" key={it.id} onClick={() => scrollTo(it.id)} style={{
               background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0',
               fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 14,
               color: fg, opacity: active === it.id ? 1 : 0.6,
@@ -73,7 +73,7 @@ function Header({ scrolled, openBooking, scrollTo, active }) {
       </div>
 
       {menuOpen && (
-        <div style={{
+        <div className="tb-mobile-menu" style={{
           position: 'fixed', inset: 0, background: 'var(--asphalt)', color: 'var(--limestone)',
           padding: 32, display: 'flex', flexDirection: 'column', gap: 24, zIndex: 200,
         }}>
@@ -87,13 +87,13 @@ function Header({ scrolled, openBooking, scrollTo, active }) {
           <div style={{ alignSelf: 'flex-start' }}><LanguageToggle dark /></div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 24 }}>
             {navItems.map(it => it.href ? (
-              <a key={it.id} href={it.href} style={{
+              <a className="tb-mobile-menu-link" key={it.id} href={it.href} style={{
                 background: 'transparent', border: 'none', textAlign: 'left', textDecoration: 'none',
                 fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 44, letterSpacing: '-0.04em',
                 color: 'var(--limestone)', cursor: 'pointer', padding: 0, lineHeight: 1.05,
               }}>{it.label}</a>
             ) : (
-              <button key={it.id} onClick={() => { scrollTo(it.id); setMenuOpen(false); }} style={{
+              <button className="tb-mobile-menu-link" key={it.id} onClick={() => { scrollTo(it.id); setMenuOpen(false); }} style={{
                 background: 'transparent', border: 'none', textAlign: 'left',
                 fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 44, letterSpacing: '-0.04em',
                 color: 'var(--limestone)', cursor: 'pointer', padding: 0, lineHeight: 1.05,
