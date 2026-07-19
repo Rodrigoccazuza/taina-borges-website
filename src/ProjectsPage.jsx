@@ -305,15 +305,26 @@ function ProjectTile({ photo, eager, priority, onOpenPhoto, project }) {
 // ─────────────────────────────────────────────────────────────
 // Lightbox
 // ─────────────────────────────────────────────────────────────
-function Lightbox({ photo, onClose }) {
+function Lightbox({ photo, onClose, onPrevious, onNext, index, total }) {
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') onPrevious();
+      if (e.key === 'ArrowRight') onNext();
+    };
     window.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
     return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
-  }, [onClose]);
+  }, [onClose, onPrevious, onNext]);
+
+  useEffect(() => {
+    const preload = new Image();
+    preload.decoding = 'async';
+    preload.src = photo.src;
+  }, [photo.src]);
+
   return (
-    <div onClick={onClose} style={{
+    <div className="tb-project-lightbox" role="dialog" aria-modal="true" aria-label="Project photo viewer" onClick={onClose} style={{
       position: 'fixed', inset: 0, zIndex: 110, background: 'rgba(11,10,9,0.96)',
       display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 32,
       animation: 'tbFadeIn 220ms var(--ease-out)',
@@ -324,21 +335,48 @@ function Lightbox({ photo, onClose }) {
         background: 'transparent', color: 'var(--limestone)', border: '1px solid rgba(232,226,212,0.32)',
         cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', zIndex: 2,
       }}><Icon name="x" size={18}/></button>
-      <div onClick={e => e.stopPropagation()} style={{
+      <button className="tb-lightbox-nav tb-lightbox-prev" onClick={(e) => { e.stopPropagation(); onPrevious(); }} aria-label="Previous photo">
+        <span aria-hidden>&lt;</span>
+      </button>
+      <button className="tb-lightbox-nav tb-lightbox-next" onClick={(e) => { e.stopPropagation(); onNext(); }} aria-label="Next photo">
+        <span aria-hidden>&gt;</span>
+      </button>
+      <div key={photo.src} onClick={e => e.stopPropagation()} style={{
         position: 'relative', maxWidth: '90vw', maxHeight: '86vh', display: 'flex', flexDirection: 'column', gap: 16,
         animation: 'tbModalIn 380ms var(--ease-cinematic)',
       }}>
         <img src={photo.src} alt={photo.title} decoding="async" style={{
           maxWidth: '90vw', maxHeight: '78vh', objectFit: 'contain', display: 'block', background: 'var(--asphalt)',
         }}/>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16, color: 'var(--limestone)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16, color: 'var(--limestone)', flexWrap: 'wrap' }}>
           <span style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: 18 }}>{photo.title}</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#8C857A' }}>{photo.meta} · {photo.year}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#8C857A' }}>
+            {String(index + 1).padStart(3, '0')} / {String(total).padStart(3, '0')} · {photo.meta} · {photo.year}
+          </span>
         </div>
       </div>
       <style>{`
         @keyframes tbFadeIn { from { opacity: 0 } to { opacity: 1 } }
         @keyframes tbModalIn { from { opacity: 0; transform: translateY(20px) } to { opacity: 1; transform: translateY(0) } }
+        .tb-lightbox-nav {
+          position: absolute; top: 50%; z-index: 3; width: 52px; height: 52px;
+          transform: translateY(-50%); border-radius: 999px;
+          border: 1px solid rgba(232,226,212,.32); background: rgba(11,10,9,.54);
+          color: var(--limestone); cursor: pointer; display: inline-flex;
+          align-items: center; justify-content: center; font-family: var(--font-sans);
+          font-size: 30px; font-weight: 300; line-height: 1; backdrop-filter: blur(10px);
+          transition: color 180ms var(--ease-out), background 180ms var(--ease-out), border-color 180ms var(--ease-out), transform 220ms var(--ease-out);
+        }
+        .tb-lightbox-prev { left: 24px; }
+        .tb-lightbox-next { right: 24px; }
+        .tb-lightbox-nav:hover { color: var(--asphalt); background: var(--taxi); border-color: var(--taxi); transform: translateY(-50%) scale(1.06); }
+        @media (max-width: 720px) {
+          .tb-project-lightbox { padding: 58px 14px 88px !important; }
+          .tb-lightbox-nav { top: auto; bottom: 18px; width: 48px; height: 48px; transform: none; }
+          .tb-lightbox-prev { left: calc(50% - 58px); }
+          .tb-lightbox-next { right: calc(50% - 58px); }
+          .tb-lightbox-nav:hover { transform: none; }
+        }
       `}</style>
     </div>
   );
@@ -351,7 +389,7 @@ function ProjectsApp() {
   const all = window.TB_COLLECTIONS || [];
   const [scrolled, setScrolled] = useState(false);
   const [filter, setFilter] = useState('all');
-  const [lightbox, setLightbox] = useState(null);
+  const [lightboxIndex, setLightboxIndex] = useState(null);
   const [bookingOpen, setBookingOpen] = useState(false);
 
   useEffect(() => {
@@ -385,7 +423,22 @@ function ProjectsApp() {
     () => filter === 'all' ? all : all.filter(p => p.category === filter),
     [filter, all]
   );
+  const visiblePhotos = useMemo(() => projects.flatMap((project) =>
+    project.photos.map((photo) => ({
+      src: photo.src,
+      title: photo.title,
+      meta: project.location,
+      year: project.year,
+    }))
+  ), [projects]);
   const totalFrames = all.reduce((s, p) => s + (p.frames || 0), 0);
+
+  const openPhoto = (photo) => {
+    const index = visiblePhotos.findIndex((item) => item.src === photo.src);
+    if (index >= 0) setLightboxIndex(index);
+  };
+  const previousPhoto = () => setLightboxIndex((index) => (index - 1 + visiblePhotos.length) % visiblePhotos.length);
+  const nextPhoto = () => setLightboxIndex((index) => (index + 1) % visiblePhotos.length);
 
   const scrollToProject = (id) => {
     const el = document.getElementById(id);
@@ -399,7 +452,7 @@ function ProjectsApp() {
       <ProjectIndex projects={all} filter={filter} setFilter={setFilter} scrollToProject={scrollToProject} />
 
       {projects.map((p, i) => (
-        <ProjectBlock key={p.id} project={p} index={i} onOpenPhoto={(ph) => setLightbox(ph)} />
+        <ProjectBlock key={p.id} project={p} index={i} onOpenPhoto={openPhoto} />
       ))}
 
       {/* CTA back to booking */}
@@ -429,7 +482,16 @@ function ProjectsApp() {
       <Footer />
       <WhatsAppFloating />
       <BookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} />
-      {lightbox && <Lightbox photo={lightbox} onClose={() => setLightbox(null)} />}
+      {lightboxIndex != null && visiblePhotos[lightboxIndex] && (
+        <Lightbox
+          photo={visiblePhotos[lightboxIndex]}
+          index={lightboxIndex}
+          total={visiblePhotos.length}
+          onClose={() => setLightboxIndex(null)}
+          onPrevious={previousPhoto}
+          onNext={nextPhoto}
+        />
+      )}
     </div>
   );
 }
