@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://formsubmit.co; form-action https://formsubmit.co; upgrade-insecure-requests" />
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()" />
+<title>taína borges — new york photographer</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='12' cy='32' r='10' fill='%23DEA61F'/><circle cx='32' cy='32' r='10' fill='%237E4834'/><circle cx='52' cy='32' r='10' fill='%23161513'/></svg>" />
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="preconnect" href="https://unpkg.com" crossorigin />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="image" href="assets/photos/hero-central-park.jpg" fetchpriority="high" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; color: var(--asphalt); font-family: var(--font-sans); scroll-behavior: smooth; }
+  body { -webkit-font-smoothing: antialiased; background: var(--page-bg); overflow-x: hidden; position: relative; isolation: isolate; }
+  ::selection { background: var(--taxi); color: var(--asphalt); }
+  button { font-family: inherit; }
+  html { scrollbar-width: thin; scrollbar-color: var(--soot) var(--asphalt); }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  /* ──────── SITE-WIDE BRICK GRID BACKGROUND ──────── */
+  :root {
+    --page-bg: #0B0A09;
+
+    --grid-line:        rgba(255, 244, 225, 0.14);
+    --grid-line-strong: rgba(255, 244, 225, 0.22);
+
+    --brick-w: 152px;
+    --brick-h: 54px;
+
+    --reveal: 0px;
+    --reveal-softness: 220px;
+  }
+
+  .site-grid-background {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    z-index: -1; pointer-events: none;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 48% 12%, rgba(255, 180, 120, 0.06), transparent 34%),
+      linear-gradient(to bottom, #131210 0%, #0B0A09 42%, #070605 100%);
+  }
+
+  .site-grid-reveal {
+    position: absolute; inset: 0;
+
+    background-image:
+      /* horizontal brick rows */
+      linear-gradient(to bottom, var(--grid-line-strong) 1.4px, transparent 1.4px),
+      /* vertical joints — row A */
+      repeating-linear-gradient(to right,
+        transparent 0, transparent calc(var(--brick-w) - 1.4px),
+        var(--grid-line) calc(var(--brick-w) - 1.4px), var(--grid-line) var(--brick-w)),
+      /* vertical joints — row B (offset to make running-bond) */
+      repeating-linear-gradient(to right,
+        transparent 0, transparent calc(var(--brick-w) - 1.4px),
+        var(--grid-line) calc(var(--brick-w) - 1.4px), var(--grid-line) var(--brick-w)),
+      /* texture glow */
+      radial-gradient(circle at 22% 18%, rgba(255,255,255,0.05), transparent 28%),
+      radial-gradient(circle at 72% 68%, rgba(255,255,255,0.03), transparent 34%);
+
+    background-size:
+      100% var(--brick-h),
+      var(--brick-w) calc(var(--brick-h) * 2),
+      var(--brick-w) calc(var(--brick-h) * 2),
+      100% 100%,
+      100% 100%;
+
+    background-position:
+      0 0,
+      0 0,
+      calc(var(--brick-w) / 2) var(--brick-h),
+      center,
+      center;
+
+    -webkit-mask-image: linear-gradient(to bottom,
+      #000 0, #000 var(--reveal),
+      transparent calc(var(--reveal) + var(--reveal-softness)));
+    mask-image: linear-gradient(to bottom,
+      #000 0, #000 var(--reveal),
+      transparent calc(var(--reveal) + var(--reveal-softness)));
+
+    transition: -webkit-mask-image 0.28s ease-out, mask-image 0.28s ease-out;
+  }
+
+  /* Static grid: no document-wide scroll mask or moving color band. */
+  .site-grid-reveal {
+    -webkit-mask-image: none;
+    mask-image: none;
+    transition: none;
+  }
+
+  /* Local cursor halo — brighter grid LINES (no glow) within a circle around the cursor.
+     Same brick lattice as the parent, just at higher opacity, masked to a radial. */
+  .site-grid-reveal::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    display: none;
+
+    background-image:
+      linear-gradient(to bottom, rgba(255,244,225,0.55) 1.4px, transparent 1.4px),
+      repeating-linear-gradient(to right,
+        transparent 0, transparent calc(var(--brick-w) - 1.4px),
+        rgba(255,244,225,0.45) calc(var(--brick-w) - 1.4px), rgba(255,244,225,0.45) var(--brick-w)),
+      repeating-linear-gradient(to right,
+        transparent 0, transparent calc(var(--brick-w) - 1.4px),
+        rgba(255,244,225,0.45) calc(var(--brick-w) - 1.4px), rgba(255,244,225,0.45) var(--brick-w));
+
+    background-size:
+      100% var(--brick-h),
+      var(--brick-w) calc(var(--brick-h) * 2),
+      var(--brick-w) calc(var(--brick-h) * 2);
+
+    background-position:
+      0 0,
+      0 0,
+      calc(var(--brick-w) / 2) var(--brick-h);
+
+    -webkit-mask-image: radial-gradient(
+      220px circle at var(--mouse-x, -200px) var(--mouse-y, -200px),
+      #000 0%, #000 55%, transparent 100%);
+    mask-image: radial-gradient(
+      220px circle at var(--mouse-x, -200px) var(--mouse-y, -200px),
+      #000 0%, #000 55%, transparent 100%);
+  }
+
+  /* scroll-edge light band — the “wave” at the reveal frontier */
+  .site-grid-reveal::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(to bottom,
+      transparent calc(var(--reveal) - 120px),
+      rgba(255,244,220,0.03) calc(var(--reveal) - 80px),
+      rgba(255,244,220,0.18) var(--reveal),
+      rgba(255,140,60,0.08) calc(var(--reveal) + 70px),
+      transparent calc(var(--reveal) + 150px));
+    mix-blend-mode: screen;
+    display: none;
+  }
+
+  @media (max-width: 700px) {
+    :root { --brick-w: 96px; --brick-h: 42px; }
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     SITE-WIDE RESPONSIVE OVERRIDES
+     Tablet:  ≤ 1024px
+     Phone:   ≤ 720px
+     ════════════════════════════════════════════════════════════════ */
+
+  /* ───── Section padding ───── */
+  @media (max-width: 1024px) {
+    section {
+      padding-left: 24px !important;
+      padding-right: 24px !important;
+    }
+    section[id="top"] { padding-left: 0 !important; padding-right: 0 !important; }
+    /* dial back vertical breathing on sections that aren't full-bleed media */
+    section#work, section#about, section#collections, section#testimonials, section#pricing, section#contact {
+      padding-top: 96px !important;
+      padding-bottom: 96px !important;
+    }
+  }
+  @media (max-width: 720px) {
+    section {
+      padding-left: 18px !important;
+      padding-right: 18px !important;
+    }
+    section[id="top"] { padding-left: 0 !important; padding-right: 0 !important; }
+    section#work, section#about, section#collections, section#testimonials, section#pricing, section#contact {
+      padding-top: 72px !important;
+      padding-bottom: 72px !important;
+    }
+  }
+
+  /* ───── HERO ───── */
+  @media (max-width: 1024px) {
+    #top { min-height: 640px !important; }
+    #top h1 {
+      font-size: clamp(60px, 11vw, 96px) !important;
+      height: auto !important;
+      line-height: 0.92 !important;
+    }
+    /* Hero inner padding container */
+    #top > div[style*="padding: 120px 32px"] { padding: 100px 24px 96px !important; }
+  }
+  @media (max-width: 720px) {
+    #top { min-height: 560px !important; height: 100svh !important; }
+    #top h1 {
+      font-size: clamp(48px, 13vw, 72px) !important;
+      max-inline-size: 14ch !important;
+    }
+    #top p { font-size: 15px !important; }
+    #top > div[style*="120px 32px"], #top > div[style*="100px 24px 96px"] { padding: 88px 18px 80px !important; }
+    #top button[aria-label^="slide"] ~ * , #top div[style*="bottom: 36px"] { font-size: 9px !important; }
+  }
+
+  /* ───── HEADER ───── */
+  @media (max-width: 1024px) {
+    header { padding: 14px 24px !important; }
+  }
+  @media (max-width: 720px) {
+    header { padding: 12px 18px !important; }
+    header button:first-child span:last-child {
+      font-size: 16px !important;
+    }
+  }
+
+  /* ───── COLLECTIONS, GALLERY, PRICING, ABOUT, CONTACT — grids ───── */
+  @media (max-width: 1024px) {
+    .tb-collections-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 14px !important; }
+    .tb-pricing-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+    .tb-gallery-grid { grid-template-columns: repeat(3, 1fr) !important; height: 72vh !important; }
+    .tb-about-grid { grid-template-columns: 1fr !important; gap: 32px !important; align-items: start !important; }
+    .tb-contact-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
+    .tb-testimonial-row { grid-template-columns: 1fr !important; gap: 32px !important; }
+    .tb-foot-grid { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+  }
+  @media (max-width: 720px) {
+    .tb-collections-grid { grid-template-columns: 1fr !important; }
+    .tb-gallery-grid { grid-template-columns: repeat(2, 1fr) !important; height: 78vh !important; gap: 10px !important; }
+    .tb-foot-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  }
+
+  /* ───── Big headlines — keep them readable on small screens ───── */
+  @media (max-width: 1024px) {
+    section h2 {
+      font-size: clamp(40px, 5.6vw, 64px) !important;
+      line-height: 0.95 !important;
+    }
+  }
+  @media (max-width: 720px) {
+    section h2 {
+      font-size: clamp(32px, 9vw, 48px) !important;
+    }
+    section h3 {
+      font-size: clamp(26px, 7vw, 40px) !important;
+      line-height: 1 !important;
+    }
+    section p { font-size: 15px !important; }
+  }
+
+  /* ───── ABOUT (full-bleed photo) — keep copy legible on small screens ───── */
+  @media (max-width: 1024px) {
+    #about { min-height: 0 !important; }
+    #about > div[style*="120px 32px 96px"] { padding: 100px 24px 72px !important; min-height: 0 !important; }
+  }
+  @media (max-width: 720px) {
+    #about > div[style*="100px 24px 72px"], #about > div[style*="120px 32px 96px"] { padding: 80px 18px 56px !important; }
+    /* Strengthen left gradient on mobile since right column stacks under */
+    #about > div[aria-hidden][style*="linear-gradient(90deg"] {
+      background: linear-gradient(180deg, rgba(11,10,9,0.78) 0%, rgba(11,10,9,0.58) 38%, rgba(11,10,9,0.45) 70%, rgba(11,10,9,0.78) 100%) !important;
+    }
+    #about [style*="grid-template-columns: repeat(3, auto)"] { gap: 18px !important; padding: 14px 16px !important; }
+  }
+
+  /* ───── PRICING cards — slimmer padding on phone ───── */
+  @media (max-width: 720px) {
+    .tb-pricing-grid > div > article > div { padding-left: 22px !important; padding-right: 22px !important; }
+  }
+
+  /* ───── CONTACT form — single column for inputs on phone ───── */
+  @media (max-width: 720px) {
+    section#contact form { grid-template-columns: 1fr !important; }
+  }
+
+  /* ───── BOOKING modal — adapt calendar grid ───── */
+  @media (max-width: 720px) {
+    .tb-cal-grid { grid-template-columns: repeat(3, 1fr) !important; }
+  }
+  @media (max-width: 480px) {
+    .tb-cal-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  }
+
+  /* ───── MARQUEE — smaller type on phones ───── */
+  @media (max-width: 720px) {
+    body { font-size: 14px; }
+  }
+
+  /* ───── WhatsApp FAB position adjust ───── */
+  @media (max-width: 720px) {
+    a[href*="wa.me"] { right: 14px !important; bottom: 14px !important; }
+  }
+
+  /* ───── Hide site-grid mouse halo on touch devices (no cursor) ───── */
+  @media (hover: none) {
+    .site-grid-reveal::before { display: none !important; }
+  }
+</style>
+</head>
+<body>
+  <!-- Fixed site-wide brick-grid background, with a lightweight cursor highlight. -->
+  <div class="site-grid-background" aria-hidden="true">
+    <div class="site-grid-reveal"></div>
+  </div>
+
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" crossorigin="anonymous"></script>
+
+  <script src="src/data.js"></script>
+  <script type="text/babel" src="src/Primitives.jsx?v=20260717-opt2"></script>
+  <script type="text/babel" src="src/i18n.jsx"></script>
+  <script type="text/babel" src="src/Logo.jsx"></script>
+  <script type="text/babel" src="src/Header.jsx?v=20260718-project-link1"></script>
+  <script type="text/babel" src="src/Hero.jsx?v=20260718-motion1"></script>
+  <script type="text/babel" src="src/Marquee.jsx"></script>
+  <script type="text/babel" src="src/Gallery.jsx"></script>
+  <script type="text/babel" src="src/Collections.jsx"></script>
+  <script type="text/babel" src="src/Pricing.jsx"></script>
+  <script type="text/babel" src="src/About.jsx?v=20260718-copy1"></script>
+  <script type="text/babel" src="src/Testimonials.jsx"></script>
+  <script type="text/babel" src="src/Contact.jsx"></script>
+  <script type="text/babel" src="src/BookingModal.jsx"></script>
+  <script type="text/babel" src="src/WhatsAppFloating.jsx"></script>
+  <script type="text/babel" src="src/Footer.jsx"></script>
+  <script type="text/babel" src="src/App.jsx?v=20260718-motion1"></script>
+
+  <script type="text/babel">
+    function mount() {
+      if (!window.App) { setTimeout(mount, 30); return; }
+      if (window.lucide) window.lucide.createIcons();
+      ReactDOM.createRoot(document.getElementById('root')).render(<LanguageProvider><App /></LanguageProvider>);
+    }
+    mount();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,197 @@
+/* =========================================================================
+   Tainá Borges — colors & type
+   New York photographer. Cobblestone + concrete + tree-green + taxi-yellow.
+   ========================================================================= */
+
+/* Inter — variable, brand-supplied */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('fonts/Inter-VariableFont_opsz_wght.ttf') format('truetype-variations');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('fonts/Inter-Italic-VariableFont_opsz_wght.ttf') format('truetype-variations');
+}
+
+/* Poppins — static weights, brand-supplied */
+@font-face { font-family: 'Poppins'; font-style: normal; font-weight: 100; font-display: swap; src: url('fonts/Poppins-Thin.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: italic; font-weight: 100; font-display: swap; src: url('fonts/Poppins-ThinItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: normal; font-weight: 200; font-display: swap; src: url('fonts/Poppins-ExtraLight.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: italic; font-weight: 200; font-display: swap; src: url('fonts/Poppins-ExtraLightItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: normal; font-weight: 300; font-display: swap; src: url('fonts/Poppins-Light.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: italic; font-weight: 300; font-display: swap; src: url('fonts/Poppins-LightItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: normal; font-weight: 400; font-display: swap; src: url('fonts/Poppins-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: italic; font-weight: 400; font-display: swap; src: url('fonts/Poppins-Italic.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: normal; font-weight: 500; font-display: swap; src: url('fonts/Poppins-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: italic; font-weight: 500; font-display: swap; src: url('fonts/Poppins-MediumItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: normal; font-weight: 600; font-display: swap; src: url('fonts/Poppins-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: italic; font-weight: 600; font-display: swap; src: url('fonts/Poppins-SemiBoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: normal; font-weight: 700; font-display: swap; src: url('fonts/Poppins-Bold.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: italic; font-weight: 700; font-display: swap; src: url('fonts/Poppins-BoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: normal; font-weight: 800; font-display: swap; src: url('fonts/Poppins-ExtraBold.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: italic; font-weight: 800; font-display: swap; src: url('fonts/Poppins-ExtraBoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: normal; font-weight: 900; font-display: swap; src: url('fonts/Poppins-Black.ttf') format('truetype'); }
+@font-face { font-family: 'Poppins'; font-style: italic; font-weight: 900; font-display: swap; src: url('fonts/Poppins-BlackItalic.ttf') format('truetype'); }
+
+/* JetBrains Mono — kept on Google Fonts CDN; no brand TTFs supplied */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ───────────── core palette (sampled from the NYC mood board) ───────── */
+  --asphalt:        #161513;   /* near-black, warm undertone — primary fg / bg */
+  --concrete:       #2C2A26;   /* deep neutral, one stop up from asphalt */
+  --soot:           #4A4641;   /* mid-dark — captions, subtle borders on dark */
+
+  --limestone:      #E8E2D4;   /* warm cream — primary light bg */
+  --paper:          #F4EFE5;   /* lifted limestone — cards on light bg */
+  --chalk:          #FBF8F1;   /* near-white, for high-contrast moments */
+
+  --brick:          #A8552B;   /* copper / red-brick — primary brand */
+  --terracotta:     #C75A4A;   /* hotter brick — secondary warm */
+  --taxi:           #F2C944;   /* signature taxi-yellow — accent */
+  --park:           #4D5A2D;   /* tree / olive green — secondary accent */
+  --steel:          #7E8B9E;   /* slate-blue — cool accent (river / steel) */
+
+  /* ───────────── semantic — light surface (default) ───────────────────── */
+  --bg:             var(--limestone);
+  --bg-elevated:    var(--paper);
+  --bg-inset:       #DCD4C2;             /* slightly darker than limestone */
+
+  --fg:             var(--asphalt);
+  --fg-1:           var(--asphalt);      /* strongest text */
+  --fg-2:           #3F3C37;             /* body */
+  --fg-3:           #6B665E;             /* secondary / captions */
+  --fg-4:           #9A9489;             /* tertiary / hints, disabled */
+
+  --line:           rgba(22, 21, 19, 0.12);
+  --line-strong:    rgba(22, 21, 19, 0.28);
+  --hairline:       rgba(22, 21, 19, 0.06);
+
+  --accent:         var(--taxi);
+  --accent-fg:      var(--asphalt);      /* text ON accent */
+  --link:           var(--brick);
+  --link-hover:     var(--terracotta);
+
+  --success:        var(--park);
+  --warning:        var(--taxi);
+  --danger:         var(--terracotta);
+
+  /* ───────────── type — families ──────────────────────────────────────── */
+  --font-display:   'Poppins', 'Helvetica Neue', Arial, sans-serif;   /* black H1s */
+  --font-sans:      'Inter', 'Helvetica Neue', Arial, sans-serif;     /* body */
+  --font-mono:      'JetBrains Mono', ui-monospace, Menlo, monospace; /* labels, captions */
+
+  /* ───────────── type — scale (fluid-ish, tight tracking on display) ──── */
+  --fs-12: 0.75rem;     /* 12 — meta, eyebrow */
+  --fs-14: 0.875rem;    /* 14 — caption */
+  --fs-16: 1rem;        /* 16 — body */
+  --fs-18: 1.125rem;    /* 18 — large body / lead */
+  --fs-20: 1.25rem;     /* 20 — h5 */
+  --fs-24: 1.5rem;      /* 24 — h4 */
+  --fs-32: 2rem;        /* 32 — h3 */
+  --fs-44: 2.75rem;     /* 44 — h2 */
+  --fs-72: 4.5rem;      /* 72 — h1 */
+  --fs-128: 8rem;       /* 128 — display / hero */
+
+  --lh-tight:   1.04;
+  --lh-snug:    1.18;
+  --lh-normal:  1.5;
+  --lh-loose:   1.7;
+
+  --track-display: -0.03em;  /* tight, editorial */
+  --track-tight:   -0.015em;
+  --track-normal:  0;
+  --track-eyebrow: 0.18em;   /* uppercase labels */
+
+  /* ───────────── spacing — 4pt scale ──────────────────────────────────── */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-24: 96px;
+  --sp-32: 128px;
+
+  /* ───────────── radii — minimal. mostly square, occasional 2px hairline */
+  --r-0: 0px;
+  --r-1: 2px;
+  --r-2: 4px;
+  --r-3: 8px;
+  --r-pill: 999px;
+
+  /* ───────────── elevation — restrained; we lean on contrast not glow ── */
+  --shadow-1: 0 1px 0 rgba(22,21,19,0.08);
+  --shadow-2: 0 4px 14px -4px rgba(22,21,19,0.18);
+  --shadow-3: 0 18px 40px -12px rgba(22,21,19,0.32);
+  --shadow-press: inset 0 2px 0 rgba(22,21,19,0.18);
+
+  /* protection gradient for image-overlay text */
+  --grad-protect-bottom: linear-gradient(180deg, transparent 0%, rgba(22,21,19,0.0) 40%, rgba(22,21,19,0.78) 100%);
+  --grad-protect-top:    linear-gradient(180deg, rgba(22,21,19,0.6) 0%, transparent 60%);
+
+  /* ───────────── motion ───────────────────────────────────────────────── */
+  --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);    /* default */
+  --ease-in:   cubic-bezier(0.5, 0, 0.75, 0);
+  --ease-cinematic: cubic-bezier(0.65, 0, 0.05, 1);  /* full-bleed transitions */
+
+  --dur-fast:   180ms;
+  --dur-base:   320ms;
+  --dur-slow:   620ms;
+  --dur-cinema: 1200ms;
+}
+
+/* ───────────── dark surface — reverse field for hero / immersive ───── */
+[data-theme="dark"], .surface-dark {
+  --bg:           var(--asphalt);
+  --bg-elevated:  var(--concrete);
+  --bg-inset:     #0E0D0C;
+
+  --fg:           var(--limestone);
+  --fg-1:         var(--limestone);
+  --fg-2:         #C9C2B3;
+  --fg-3:         #8C857A;
+  --fg-4:         #5C5750;
+
+  --line:         rgba(232, 226, 212, 0.14);
+  --line-strong:  rgba(232, 226, 212, 0.32);
+  --hairline:     rgba(232, 226, 212, 0.07);
+
+  --accent-fg:    var(--asphalt);   /* taxi yellow + asphalt text stays */
+  --link:         var(--taxi);
+  --link-hover:   #FFE070;
+}
+
+/* =========================================================================
+   semantic element styles — apply by class so they're opt-in
+   ========================================================================= */
+.tb-body { font-family: var(--font-sans); font-weight: 400; font-size: var(--fs-16); line-height: var(--lh-normal); color: var(--fg-2); }
+.tb-lead { font-family: var(--font-sans); font-weight: 300; font-size: var(--fs-20); line-height: var(--lh-snug); color: var(--fg-1); letter-spacing: var(--track-tight); }
+
+.tb-h1 { font-family: var(--font-display); font-weight: 900; font-size: clamp(3rem, 8vw, var(--fs-128)); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--fg-1); text-wrap: balance; }
+.tb-h2 { font-family: var(--font-sans);    font-weight: 300; font-size: var(--fs-44); line-height: var(--lh-snug);  letter-spacing: var(--track-tight); color: var(--fg-1); text-wrap: balance; }
+.tb-h3 { font-family: var(--font-sans);    font-weight: 400; font-size: var(--fs-32); line-height: var(--lh-snug);  letter-spacing: var(--track-tight); color: var(--fg-1); }
+.tb-h4 { font-family: var(--font-sans);    font-weight: 500; font-size: var(--fs-24); line-height: var(--lh-snug);  color: var(--fg-1); }
+.tb-h5 { font-family: var(--font-sans);    font-weight: 600; font-size: var(--fs-20); line-height: var(--lh-snug);  color: var(--fg-1); }
+
+.tb-display { font-family: var(--font-display); font-weight: 900; font-size: clamp(4rem, 12vw, 12rem); line-height: 0.95; letter-spacing: -0.04em; color: var(--fg-1); }
+
+.tb-eyebrow { font-family: var(--font-mono); font-weight: 500; font-size: var(--fs-12); letter-spacing: var(--track-eyebrow); text-transform: uppercase; color: var(--fg-3); }
+.tb-caption { font-family: var(--font-mono); font-weight: 400; font-size: var(--fs-12); color: var(--fg-3); letter-spacing: 0.02em; }
+.tb-mono    { font-family: var(--font-mono); font-weight: 400; font-size: var(--fs-14); color: var(--fg-2); }
+
+.tb-quote   { font-family: var(--font-sans); font-weight: 300; font-style: italic; font-size: var(--fs-32); line-height: var(--lh-snug); color: var(--fg-1); letter-spacing: var(--track-tight); }
+
+a.tb-link { color: var(--link); text-decoration: none; border-bottom: 1px solid currentColor; transition: color var(--dur-fast) var(--ease-out); }
+a.tb-link:hover { color: var(--link-hover); }
