@@ -33,10 +33,7 @@ function ProjectsHeader({ scrolled, openBooking }) {
         <a href="Taina Borges Website.html" style={{
           textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 12, color: fg,
         }}>
-          <TBMark size={22} variant={onLight ? 'light' : 'dark'} />
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, letterSpacing: '-0.04em', color: fg }}>
-            taína borges<span style={{ color: 'var(--taxi)' }}>.</span>
-          </span>
+          <img className="tb-header-logo" src="assets/brand/hero-logo.png" alt="Tainá Borges Photography" style={{ width: 188, height: 'auto', display: 'block' }} />
         </a>
 
         <nav className="tb-nav" style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
@@ -64,10 +61,7 @@ function ProjectsHeader({ scrolled, openBooking }) {
           overflowY: 'auto', overscrollBehavior: 'contain', touchAction: 'pan-y',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 12 }}>
-              <TBMark size={22} variant="dark" />
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20 }}>taína borges<span style={{ color: 'var(--taxi)' }}>.</span></span>
-            </span>
+            <img src="assets/brand/hero-logo.png" alt="Tainá Borges Photography" style={{ width: 190, height: 'auto', display: 'block' }} />
             <button type="button" onClick={() => setMenuOpen(false)} aria-label="Close menu" style={{
               width: 44, height: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
               color: 'var(--limestone)', background: 'transparent', border: '1px solid rgba(232,226,212,.25)', borderRadius: 999, cursor: 'pointer',
@@ -138,7 +132,7 @@ function ProjectsHero({ total, totalFrames }) {
               color: 'rgba(244,239,229,0.86)', maxInlineSize: '46ch', margin: 0,
               textShadow: '0 1px 14px rgba(0,0,0,0.5)',
             }}>
-              the full archive — each set is its own walk through the city, organized the way it was shot. every frame, in order.
+              Explore complete New York City photography sessions. Each gallery follows the original story, location, and sequence from the day it was photographed.
             </p>
             <div style={{ display: 'flex', gap: 40 }}>
               <HeroStat n={String(total).padStart(2, '0')} label="projects" />
@@ -243,7 +237,7 @@ function ProjectBlock({ project, index, onOpenPhoto }) {
                 fontSize: 'clamp(44px, 6vw, 96px)', lineHeight: 0.92, letterSpacing: '-0.045em',
                 margin: 0, color: '#F4EFE5', textWrap: 'balance', maxInlineSize: '16ch',
               }}>
-                {project.title} <span style={{ color: 'var(--taxi)' }}>—</span> {project.year}
+                {project.title} <span style={{ color: 'var(--taxi)' }}>·</span> {project.year}
               </h2>
               <p style={{
                 fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: 18, lineHeight: 1.5,

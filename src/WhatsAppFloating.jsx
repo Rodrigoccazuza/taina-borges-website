@@ -5,7 +5,7 @@ function WhatsAppFloating() {
   const { isPortuguese } = useLanguage();
   const [hover, setHover] = useState(false);
   const [shown, setShown] = useState(false);
-  const number = '19175550042';
+  const number = '15165592237';
   const text = encodeURIComponent(isPortuguese ? 'Oi, Tainá! Estou pensando em fazer um ensaio em Nova York.' : 'Hi, Tainá! I’m thinking about a photo session in New York.');
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function WhatsAppFloating() {
   }, []);
 
   return (
-    <a href={`https://wa.me/${number}?text=${text}`} target="_blank" rel="noopener noreferrer" aria-label="Chat with Taína on WhatsApp"
+    <a href={`https://wa.me/${number}?text=${text}`} target="_blank" rel="noopener noreferrer" aria-label="Chat with Tainá on WhatsApp"
        onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
        style={{
          position: 'fixed', right: 22, bottom: 22, zIndex: 60,

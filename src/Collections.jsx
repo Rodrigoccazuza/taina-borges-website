@@ -32,7 +32,7 @@ function Collections({ onOpenPhoto }) {
                 display: 'inline-flex', alignItems: 'center', gap: 6, borderBottom: '1px solid currentColor', paddingBottom: 2,
               }}>view all projects <Icon name="arrow-up-right" size={14} /></a>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--fg-3)' }}>
-                {String(idx + 1).padStart(2, '0')} — {String(Math.min(items.length, idx + 4)).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
+                {String(idx + 1).padStart(2, '0')} to {String(Math.min(items.length, idx + 4)).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
               </span>
               <NavBtn icon="chevron-left" onClick={prev} disabled={idx === 0} />
               <NavBtn icon="chevron-right" onClick={next} disabled={idx >= items.length - 4} />
@@ -103,7 +103,7 @@ function CollectionCard({ collection, delay, onOpenPhoto }) {
               color: '#F4EFE5', margin: 0,
               textShadow: '0 2px 14px rgba(0,0,0,0.45)',
             }}>
-              {collection.title} <span style={{ color: 'var(--taxi)' }}>—</span> {collection.year}
+              {collection.title} <span style={{ color: 'var(--taxi)' }}>·</span> {collection.year}
             </h3>
             <div style={{
               marginTop: 8, display: 'inline-flex', alignItems: 'center', gap: 10,

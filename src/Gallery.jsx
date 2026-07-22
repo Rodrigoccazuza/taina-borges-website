@@ -30,7 +30,7 @@ function Gallery({ onOpenPhoto }) {
     <section ref={sectionRef} data-screen-label="03 Work" id="work" style={{ background: 'var(--limestone)', padding: '120px 32px' }}>
       <div style={{ maxWidth: 1440, margin: '0 auto' }}>
         <Reveal>
-          <Eyebrow>selected work · 2024 — 2026</Eyebrow>
+          <Eyebrow>selected New York photography · 2024 to 2026</Eyebrow>
         </Reveal>
         <Reveal delay={80}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginTop: 14, marginBottom: 56 }}>

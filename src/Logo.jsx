@@ -29,7 +29,7 @@ function TBMark({ size = 26, variant = 'light', wordmark = false, gap = 4 }) {
           fontFamily: 'var(--font-display)', fontWeight: 900, letterSpacing: '-0.04em',
           fontSize: Math.round(size * 0.84), color: ink, lineHeight: 1,
         }}>
-          taína borges
+          tainá borges
           <span style={{ color: yellow }}>.</span>
         </span>
       )}

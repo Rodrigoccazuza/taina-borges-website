@@ -17,25 +17,11 @@ const HERO_SLIDES = [
     mobilePosition: '60% 48%'
   },
   {
-    src: 'assets/photos/hero-morningside.jpg',
-    eyebrow: 'morningside · spring',
-    meta: 'frame 116 · uptown · 4:18 pm',
-    position: 'center 35%',
-    mobilePosition: '58% 35%'
-  },
-  {
     src: 'assets/gallery/ariane-long-beach-2025/021.jpg',
     eyebrow: 'long beach · ocean air',
     meta: 'frame 021 · long beach · ny',
     position: 'center 48%',
     mobilePosition: '64% 48%'
-  },
-  {
-    src: 'assets/gallery/ariane-long-beach-2025/096.jpg',
-    eyebrow: 'long beach · film study',
-    meta: 'frame 096 · monochrome · ny',
-    position: 'center 42%',
-    mobilePosition: '54% 42%'
   },
   {
     src: 'assets/gallery/naruna-2024/047.jpg',
@@ -157,7 +143,7 @@ function Hero({ openBooking, scrollTo }) {
               fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: 18, lineHeight: 1.45,
               color: '#E8E2D4', maxInlineSize: '40ch', margin: 0, opacity: 0.92
             }}>
-              {isPortuguese ? 'pedras, concreto, o verde das árvores e o amarelo dos táxis — um registro autêntico da cidade e das pessoas que vivem cada momento nela.' : 'cobblestone, concrete, the green of trees and the yellow of cabs — an authentic record of the city and the people in it.'}
+              {isPortuguese ? 'Fotografia natural em Nova York para casais, famílias e viajantes. Histórias autênticas entre parques, ruas, praias e táxis amarelos.' : 'Natural New York City photography for couples, families, and travelers. Authentic stories captured in parks, city streets, and at the beach.'}
             </p>
             <div className="tb-hero-buttons" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <Button variant="accent" size="lg" href="Projects.html" icon={<Icon name="arrow-up-right" size={16} />}>

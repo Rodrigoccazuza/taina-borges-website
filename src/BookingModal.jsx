@@ -1,7 +1,7 @@
 /* global React, Icon, Button, Eyebrow, TBMark, useLanguage */
 const { useState, useMemo, useRef } = React;
 
-const BOOKING_ENDPOINT = 'https://formsubmit.co/ajax/tainaborges_1@hotmail.com';
+const BOOKING_ENDPOINT = 'https://formsubmit.co/ajax/tainaborgesphoto@outlook.com';
 
 function BookingModal({ open, onClose }) {
   const { isPortuguese } = useLanguage();
@@ -93,7 +93,7 @@ function BookingModal({ open, onClose }) {
             <TBMark size={28} variant="light" />
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--fg-3)' }}>{isPortuguese ? 'agendar conversa · vídeo' : 'book a call · video'}</div>
-              <div style={{ fontFamily: 'var(--font-sans)', fontSize: 16, fontWeight: 500, color: 'var(--asphalt)' }}>{isPortuguese ? 'conversa de 20 minutos · tainá borges' : '20-minute intro · taína borges'}</div>
+              <div style={{ fontFamily: 'var(--font-sans)', fontSize: 16, fontWeight: 500, color: 'var(--asphalt)' }}>{isPortuguese ? 'conversa de 20 minutos · tainá borges' : '20-minute intro · tainá borges'}</div>
             </div>
           </div>
           <button onClick={reset} aria-label="Close booking request" style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--fg-2)', display: 'inline-flex' }}><Icon name="x" size={20}/></button>

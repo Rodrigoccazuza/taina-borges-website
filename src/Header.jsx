@@ -42,13 +42,12 @@ function Header({ scrolled, openBooking, scrollTo, active }) {
           background: 'transparent', border: 'none', cursor: 'pointer', padding: 0,
           color: fg, lineHeight: 1, display: 'inline-flex', alignItems: 'center', gap: 12,
         }}>
-          {/* Brand mark — three balls */}
           <TBMark size={22} variant={onLight ? 'light' : 'dark'} />
           <span style={{
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20,
             letterSpacing: '-0.04em', color: fg,
           }}>
-            taína borges<span style={{ color: 'var(--taxi)' }}>.</span>
+            tainá borges<span style={{ color: 'var(--taxi)' }}>.</span>
           </span>
         </button>
 
@@ -93,7 +92,7 @@ function Header({ scrolled, openBooking, scrollTo, active }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 12 }}>
               <TBMark size={22} variant="dark" />
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20 }}>taína borges<span style={{ color: 'var(--taxi)' }}>.</span></span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20 }}>tainá borges<span style={{ color: 'var(--taxi)' }}>.</span></span>
             </span>
             <button onClick={() => setMenuOpen(false)} aria-label={isPortuguese ? 'Fechar menu' : 'Close menu'} style={{ width: 44, height: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: '1px solid rgba(232,226,212,.25)', borderRadius: 999, color: 'var(--limestone)', cursor: 'pointer' }}><Icon name="x" size={22}/></button>
           </div>

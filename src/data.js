@@ -48,7 +48,7 @@
       galleryFrame('g08', 'talita-central-park-2024', 18, 'Spring in Central Park', 'lifestyle', '2024', 'lifestyle', '2 / 3'),
       galleryFrame('g09', 'naruna-2024', 19, 'Naruna in New York', 'portrait', '2024', 'portraits', '2 / 3'),
       galleryFrame('g10', 'talita-long-beach-2025', 44, 'At the waterline', 'lifestyle', '2025', 'lifestyle', '3 / 2'),
-      galleryFrame('g11', 'behind-the-camera', 12, 'Taína at work', 'behind the scenes', '2025', 'behind-the-scenes', '4 / 5'),
+      galleryFrame('g11', 'behind-the-camera', 12, 'Tainá at work', 'behind the scenes', '2025', 'behind-the-scenes', '4 / 5'),
       galleryFrame('g12', 'ariane-long-beach-2025', 41, 'Ariane, late light', 'portrait', '2025', 'portraits', '2 / 3'),
       galleryFrame('g13', 'talita-central-park-2024', 37, 'A walk through the park', 'lifestyle', '2024', 'lifestyle', '3 / 2'),
       galleryFrame('g14', 'naruna-2024', 33, 'Naruna, available light', 'portrait', '2024', 'portraits', '4 / 5'),
@@ -56,10 +56,10 @@
       galleryFrame('g16', 'behind-the-camera', 25, 'Making the picture', 'behind the scenes', '2025', 'behind-the-scenes', '3 / 2'),
     ],
     testimonials: [
-      { quote: 'taína showed up like a friend who happens to make pictures. we forgot the camera was there.', name: 'may & theo', meta: 'new york portrait', img: asset('talita-central-park-2024', 9) },
+      { quote: 'tainá showed up like a friend who happens to make pictures. we forgot the camera was there.', name: 'may & theo', meta: 'new york portrait', img: asset('talita-central-park-2024', 9) },
       { quote: 'the only photographer i\u2019ve worked with who didn\u2019t once say "smile."', name: 'jules okafor', meta: 'long beach portrait', img: asset('ariane-long-beach-2025', 16) },
       { quote: 'she sees the small thing nobody else noticed. that\u2019s the whole point.', name: 'aria pham', meta: 'portrait session', img: asset('naruna-2024', 11) },
-      { quote: 'the photographs feel like the afternoon itself — warm, easy, and completely us.', name: 'leila & sam', meta: 'new york session', img: asset('talita-long-beach-2025', 31) },
+      { quote: 'the photographs feel like the afternoon itself: warm, easy, and completely us.', name: 'leila & sam', meta: 'new york session', img: asset('talita-long-beach-2025', 31) },
     ],
   };
 
@@ -75,7 +75,7 @@
       id: 'behind-the-camera', src: asset('behind-the-camera', 1),
       title: 'Behind the Camera', year: '2025', location: 'new york, ny',
       frames: 39, category: 'behind-the-scenes',
-      blurb: 'Taína at work — the quiet direction, movement, and attention that live outside the finished frame.',
+      blurb: 'Tainá at work, with the quiet direction, movement, and attention that shape every finished photograph.',
       photos: projectPhotos('behind-the-camera', 39, 'Behind the Camera'),
     },
     {
@@ -96,7 +96,7 @@
       id: 'talita-central-park', src: asset('talita-central-park-2024', 1),
       title: 'Talita · Central Park', year: '2024', location: 'central park, ny',
       frames: 64, category: 'lifestyle',
-      blurb: 'a spring walk through Central Park — open shade, new green, and small pauses between the paths.',
+      blurb: 'a spring photography walk through Central Park with open shade, new green, and quiet pauses along the paths.',
       photos: projectPhotos('talita-central-park-2024', 64, 'Talita · Central Park'),
     },
     {

@@ -12,13 +12,7 @@ function Footer() {
         <Reveal>
           <div className="tb-foot-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 48, paddingBottom: 64, borderBottom: '1px solid rgba(232,226,212,0.14)' }}>
             <div>
-              {/* Big stacked logo + mark */}
-              <div style={{ marginBottom: 22 }}>
-                <TBMark size={56} variant="dark" gap={6} />
-              </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 48, letterSpacing: '-0.045em', lineHeight: 0.95, marginBottom: 18 }}>
-                taína borges<span style={{ color: 'var(--taxi)' }}>.</span>
-              </div>
+              <img className="tb-footer-logo" src="assets/brand/footer-logo.png" alt="Tainá Borges Photography" style={{ width: 'min(100%, 390px)', height: 'auto', display: 'block', marginBottom: 22 }} />
               <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: 16, lineHeight: 1.5, color: '#C9C2B3', marginTop: 0, maxInlineSize: '40ch' }}>
                 {isPortuguese ? 'fotógrafa em nova york. experiências leves, autênticas e cheias de memórias.' : 'new york photographer. relaxed, authentic experiences and memories that last.'}
               </p>
@@ -27,14 +21,14 @@ function Footer() {
             <FootCol title={isPortuguese ? 'informações' : 'info'} items={isPortuguese ? ['sobre', 'valores', 'contato', 'processo'] : ['about', 'pricing', 'contact', 'process']} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <Eyebrow dark withBar={false}>{isPortuguese ? 'encontre-me' : 'elsewhere'}</Eyebrow>
-              <FootLink icon="instagram" label="@tainaborges" href="https://www.instagram.com/tainaborges" external />
-              <FootLink icon="mail" label="tainaborges_1@hotmail.com" href="mailto:tainaborges_1@hotmail.com" />
-              <FootLink icon="message-circle" label="whatsapp" href="https://wa.me/19175550042" external />
+              <FootLink icon="instagram" label="@tainaborgees" href="https://www.instagram.com/tainaborgees/" external />
+              <FootLink icon="mail" label="tainaborgesphoto@outlook.com" href="mailto:tainaborgesphoto@outlook.com" />
+              <FootLink icon="message-circle" label="whatsapp" href="https://wa.me/15165592237" external />
             </div>
           </div>
         </Reveal>
         <div className="tb-foot-end" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 24, fontFamily: 'var(--font-mono)', fontSize: 11, color: '#5C5750', letterSpacing: '0.06em', gap: 16, flexWrap: 'wrap' }}>
-          <span>© taína borges, new york — 2026</span>
+          <span>© tainá borges, new york, 2026</span>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
             <span style={{ width: 6, height: 6, background: 'var(--taxi)', borderRadius: 999 }} /> made on the 6 train
           </span>

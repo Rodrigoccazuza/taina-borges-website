@@ -4,51 +4,57 @@ function Pricing({ openBooking }) {
   const { isPortuguese } = useLanguage();
   const ui = isPortuguese ? {
     eyebrow: 'investimento', title: 'Escolha sua experiência em Nova York.',
-    intro: 'Três formas de guardar sua história na cidade — com direção leve, momentos reais e fotografias atemporais.',
-    includes: 'inclui', bestFor: 'ideal para', mostBooked: 'mais escolhido', cta: 'reservar esta experiência',
+    intro: 'Três formas de guardar sua história em Nova York com direção leve, momentos reais e fotografias atemporais.',
+    includes: 'inclui', delivery: 'entrega', bestFor: 'ideal para', mostBooked: 'mais escolhido', cta: 'reservar esta experiência',
   } : {
     eyebrow: 'investment', title: 'Choose your New York experience.',
-    intro: 'Three ways to preserve your story in the city—with gentle direction, real moments, and timeless photographs.',
-    includes: 'includes', bestFor: 'best for', mostBooked: 'most booked', cta: 'book this experience',
+    intro: 'Choose a relaxed New York City photo session with gentle direction, natural moments, and timeless photographs.',
+    includes: 'includes', delivery: 'delivery', bestFor: 'best for', mostBooked: 'most booked', cta: 'book this experience',
   };
 
   const tiers = isPortuguese ? [
     {
-      id: 'essentials', kicker: 'Essentials', name: 'NYC Mini Experience', price: '$175–225',
-      duration: '30–45 minutos · 1 local', mark: 'E', markColor: '#DEA61F',
-      includes: ['sessão de 30–45 minutos em NYC', '1 local', '1 look', '10–15 fotos editadas', 'galeria online privada', 'downloads em alta resolução'],
-      bestFor: 'viajantes solo · casais · retratos para redes sociais',
+      id: 'essentials', kicker: 'Essentials', name: 'NYC Mini Experience', price: '$195', priceNote: '(Preço introdutório)',
+      duration: '45 minutos · 1 local', mark: 'E', markColor: '#DEA61F',
+      includes: ['sessão fotográfica de 45 minutos em NYC', '1 local', '1 look', '20 fotos editadas profissionalmente', 'galeria online privada', 'downloads digitais em alta resolução'],
+      delivery: '20 fotos editadas · entrega em 7 dias',
+      bestFor: 'viajantes solo · casais · memórias de viagem · pedidos surpresa',
     },
     {
-      id: 'signature', kicker: 'Signature · principal', name: 'The New York Experience', price: '$350–450',
-      duration: '1,5 hora · 2 locais', mark: 'S', markColor: '#7E4834', featured: true,
-      includes: ['sessão fotográfica de 1,5 hora', '2 locais próximos', '1 troca de look (opcional)', '30–40 fotos editadas', 'galeria online privada', 'recomendações de locais', 'downloads em alta resolução'],
-      bestFor: 'casais · famílias · memórias de viagem · primeira vez em NYC',
+      id: 'signature', kicker: 'Signature · principal', name: 'The Complete New York Experience', price: '$395', priceNote: '(Preço introdutório)',
+      duration: '2 horas · até 2 locais', mark: 'S', markColor: '#7E4834', featured: true,
+      includes: ['sessão fotográfica de 2 horas', 'até 2 locais em NYC', 'até 2 looks', '40 fotos editadas profissionalmente', 'galeria online privada', 'downloads digitais em alta resolução', 'recomendações personalizadas de locais antes da sessão'],
+      delivery: '40 fotos editadas · entrega em 7 dias',
+      bestFor: 'casais · famílias · memórias de férias · lua de mel · primeira viagem a NYC · criadores de conteúdo',
     },
     {
-      id: 'story', kicker: 'Story', name: 'NYC Story Experience', price: '$650–800',
-      duration: '3 horas · vários locais', mark: 'NY', markColor: '#161513',
-      includes: ['sessão de 3 horas em NYC', 'planejamento de roteiro personalizado', 'vários locais', '60–80 fotos editadas', 'galeria privada', 'downloads em alta resolução'],
-      bestFor: 'lua de mel · pedidos de noivado · aniversários · famílias',
+      id: 'beach', kicker: 'Beach Session', name: 'Golden Hour by the Ocean', price: '$175', priceNote: '(Preço introdutório)',
+      duration: '45 minutos · 1 local na praia', mark: 'B', markColor: '#161513',
+      includes: ['sessão fotográfica de 45 minutos', 'Long Beach, NY', '20 fotos editadas profissionalmente', 'galeria online privada', 'downloads digitais em alta resolução', 'agendamento ao pôr do sol (quando disponível)'],
+      delivery: '20 fotos editadas · entrega em 7 dias',
+      bestFor: 'casais · ensaios pré-casamento · noivados · gestantes · famílias · retratos individuais',
     },
   ] : [
     {
-      id: 'essentials', kicker: 'Essentials', name: 'NYC Mini Experience', price: '$175–225',
-      duration: '30–45 minutes · 1 location', mark: 'E', markColor: '#DEA61F',
-      includes: ['30–45 minute photo session in NYC', '1 location', '1 outfit', '10–15 edited photos', 'private online gallery', 'high-resolution downloads'],
-      bestFor: 'solo travelers · couples · social media portraits',
+      id: 'essentials', kicker: 'Essentials', name: 'NYC Mini Experience', price: '$195', priceNote: '(Introductory Price)',
+      duration: '45 minutes · 1 location', mark: 'E', markColor: '#DEA61F',
+      includes: ['45-minute photo session in NYC', '1 location', '1 outfit', '20 professionally edited photos', 'private online gallery', 'high-resolution digital downloads'],
+      delivery: '20 edited photos · 7-day turnaround',
+      bestFor: 'solo travelers · couples · vacation memories · surprise proposals',
     },
     {
-      id: 'signature', kicker: 'Signature · main experience', name: 'The New York Experience', price: '$350–450',
-      duration: '1.5 hours · 2 locations', mark: 'S', markColor: '#7E4834', featured: true,
-      includes: ['1.5-hour photo session', '2 nearby locations', '1 outfit change (optional)', '30–40 edited photos', 'private online gallery', 'location recommendations', 'high-resolution downloads'],
-      bestFor: 'couples · families · vacation memories · first NYC trip',
+      id: 'signature', kicker: 'Signature · main experience', name: 'The Complete New York Experience', price: '$395', priceNote: '(Introductory Price)',
+      duration: '2 hours · up to 2 locations', mark: 'S', markColor: '#7E4834', featured: true,
+      includes: ['2-hour photo session', 'up to 2 NYC locations', 'up to 2 outfits', '40 professionally edited photos', 'private online gallery', 'high-resolution digital downloads', 'personalized location recommendations before your session'],
+      delivery: '40 edited photos · 7-day turnaround',
+      bestFor: 'couples · families · vacation memories · honeymoons · first NYC trip · content creators',
     },
     {
-      id: 'story', kicker: 'Story', name: 'NYC Story Experience', price: '$650–800',
-      duration: '3 hours · multiple locations', mark: 'NY', markColor: '#161513',
-      includes: ['3-hour NYC session', 'personalized route planning', 'multiple locations', '60–80 edited photos', 'private gallery', 'high-resolution downloads'],
-      bestFor: 'honeymoons · proposals · anniversaries · families',
+      id: 'beach', kicker: 'Beach Session', name: 'Golden Hour by the Ocean', price: '$175', priceNote: '(Introductory Price)',
+      duration: '45 minutes · 1 beach location', mark: 'B', markColor: '#161513',
+      includes: ['45-minute photo session', 'Long Beach, NY', '20 professionally edited photos', 'private online gallery', 'high-resolution digital downloads', 'sunset scheduling (when available)'],
+      delivery: '20 edited photos · 7-day turnaround',
+      bestFor: 'couples · pre-wedding sessions · engagements · maternity · families · solo portraits',
     },
   ];
 
@@ -90,7 +96,7 @@ function PricingCard({ tier, ui, delay, openBooking }) {
           <div style={{ width: 52, height: 52, borderRadius: 99, background: tier.markColor, color: tier.id === 'story' ? '#F4EFE5' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: tier.mark.length > 1 ? 19 : 28, marginBottom: 24 }}>{tier.mark}</div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '.18em', textTransform: 'uppercase', color: muted, marginBottom: 9 }}>{tier.kicker}</div>
           <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 31, letterSpacing: '-.03em', lineHeight: 1, margin: '0 0 24px', maxWidth: '14ch' }}>{tier.name}</h3>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}><span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 43, letterSpacing: '-.04em', lineHeight: 1 }}>{tier.price}</span><span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', color: muted }}>USD</span></div>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}><span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 43, letterSpacing: '-.04em', lineHeight: 1 }}>{tier.price}</span><span style={{ fontFamily: 'var(--font-sans)', fontSize: 13, fontStyle: 'italic', color: muted }}>{tier.priceNote}</span></div>
           <div style={{ marginTop: 12, fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: 15 }}>{tier.duration}</div>
         </div>
         <div style={{ height: 1, margin: '0 28px', background: featured ? 'rgba(232,226,212,.18)' : 'var(--line-strong)' }} />
@@ -99,6 +105,10 @@ function PricingCard({ tier, ui, delay, openBooking }) {
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 12 }}>
             {tier.includes.map(item => <li key={item} style={{ display: 'flex', gap: 11, fontFamily: 'var(--font-sans)', fontSize: 14.5, lineHeight: 1.4 }}><Icon name="check" size={15} color={tier.markColor} /><span>{item}</span></li>)}
           </ul>
+          <div style={{ marginTop: 24, paddingTop: 18, borderTop: `1px solid ${featured ? 'rgba(232,226,212,.18)' : 'var(--line-strong)'}` }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '.18em', textTransform: 'uppercase', color: muted, marginBottom: 7 }}>{ui.delivery}</div>
+            <div style={{ fontFamily: 'var(--font-sans)', fontSize: 14, lineHeight: 1.45 }}>{tier.delivery}</div>
+          </div>
         </div>
         <div style={{ padding: '20px 28px 28px', borderTop: `1px solid ${featured ? 'rgba(232,226,212,.18)' : 'var(--line-strong)'}` }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '.18em', textTransform: 'uppercase', color: muted, marginBottom: 8 }}>{ui.bestFor}</div>

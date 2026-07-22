@@ -1,7 +1,7 @@
 /* global React, Field, Button, Icon, Eyebrow, Reveal, useLanguage */
 const { useState, useRef } = React;
 
-const CONTACT_ENDPOINT = 'https://formsubmit.co/ajax/tainaborges_1@hotmail.com';
+const CONTACT_ENDPOINT = 'https://formsubmit.co/ajax/tainaborgesphoto@outlook.com';
 
 function Contact({ openBooking }) {
   const { isPortuguese } = useLanguage();
@@ -81,15 +81,15 @@ function Contact({ openBooking }) {
             </Reveal>
             <Reveal delay={140}>
               <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: 19, lineHeight: 1.5, color: 'var(--fg-2)', maxInlineSize: '34ch', margin: 0 }}>
-                {isPortuguese ? 'conte um pouco sobre a experiência que você imagina. respondo em até dois dias — normalmente antes.' : 'tell me a little about the experience you have in mind. i’ll get back within two days, usually sooner.'}
+                {isPortuguese ? 'conte um pouco sobre a experiência que você imagina. respondo em até dois dias, normalmente antes.' : 'Tell me about the New York photo session you have in mind. I usually reply within two days.'}
               </p>
             </Reveal>
 
             <Reveal delay={220}>
               <div style={{ marginTop: 40, display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <ContactLink icon="mail" href="mailto:tainaborges_1@hotmail.com">tainaborges_1@hotmail.com</ContactLink>
-                <ContactLink icon="message-circle" href="https://wa.me/19175550042" external>+1 (917) 555-0042 · whatsapp</ContactLink>
-                <ContactLink icon="instagram" href="https://www.instagram.com/tainaborges" external>@tainaborges</ContactLink>
+                <ContactLink icon="mail" href="mailto:tainaborgesphoto@outlook.com">tainaborgesphoto@outlook.com</ContactLink>
+                <ContactLink icon="message-circle" href="https://wa.me/15165592237" external>+1 (516) 559-2237 · whatsapp</ContactLink>
+                <ContactLink icon="instagram" href="https://www.instagram.com/tainaborgees/" external>@tainaborgees</ContactLink>
               </div>
             </Reveal>
 
@@ -112,7 +112,7 @@ function Contact({ openBooking }) {
                   {isPortuguese ? 'obrigada' : 'thanks'}{form.name ? `, ${form.name.toLowerCase()}` : ''}<span style={{ color: 'var(--taxi)' }}>.</span>
                 </h3>
                 <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: 18, lineHeight: 1.5, color: '#C9C2B3', margin: 0, maxInlineSize: '36ch' }}>
-                  {isPortuguese ? 'recebi sua mensagem. responderei em até dois dias — normalmente antes.' : 'i got it. i’ll write back within two days, usually sooner.'}
+                  {isPortuguese ? 'recebi sua mensagem. responderei em até dois dias, normalmente antes.' : 'Your message is here. I usually reply within two days.'}
                 </p>
               </div>
             </Reveal> :
@@ -120,7 +120,7 @@ function Contact({ openBooking }) {
           <Reveal delay={120}>
               <form onSubmit={submitContact}
                 method="POST"
-                action="https://formsubmit.co/tainaborges_1@hotmail.com"
+                action="https://formsubmit.co/tainaborgesphoto@outlook.com"
                 acceptCharset="UTF-8"
                 aria-busy={status === 'sending'}
             style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>

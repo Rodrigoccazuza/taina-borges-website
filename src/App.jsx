@@ -66,7 +66,7 @@ function App() {
       <Hero openBooking={() => setBookingOpen(true)} scrollTo={scrollTo} />
 
       {/* Subway-sign marquee — feels like passing destination boards */}
-      <Marquee items={isPortuguese ? ['retratos', 'casais', 'famílias', 'viagens', 'momentos reais', 'nova york', 'histórias inesquecíveis'] : ['portraits', 'couples', 'families', 'travel', 'real moments', 'new york', 'unforgettable stories']} speed={62} />
+      <Marquee items={isPortuguese ? ['retratos', 'casais', 'famílias', 'memória', 'cidade', 'praia', 'viagens', 'momentos reais', 'nova york', 'histórias inesquecíveis'] : ['portraits', 'couples', 'families', 'memory', 'city', 'beach', 'travel', 'real moments', 'new york', 'unforgettable stories']} speed={62} />
 
       {/* Transparent break section — lets the site-wide brick grid take the stage */}
       <BrickReveal />
@@ -138,7 +138,7 @@ function BrickReveal() {
             opacity: tp, transform: `translateY(${(1 - tp) * 8}px)`,
             transition: 'opacity 240ms linear, transform 240ms linear',
           }}>
-            {isPortuguese ? 'tijolo & cidade · 1880 — presente' : 'brick & city · 1880 — present'}
+            {isPortuguese ? 'tijolo & cidade · 1880 até hoje' : 'brick & city · 1880 to today'}
           </span>
           <span style={{
             fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', textAlign: 'right',

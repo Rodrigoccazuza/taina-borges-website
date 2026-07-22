@@ -6,10 +6,10 @@ function About() {
     eyebrow: 'sobre · tainá borges',
     title: 'Oi, eu sou a Tainá!',
     paragraphs: [
-      'Nasci no Brasil e visitei Nova York pela primeira vez em 2019. Como tantas pessoas, cheguei como visitante — e me apaixonei instantaneamente pela energia, diversidade e charme icônico da cidade.',
+      'Nasci no Rio de Janeiro, Brasil, e visitei Nova York pela primeira vez em 2019. Cheguei como visitante e logo me apaixonei pela energia, diversidade e beleza icônica da cidade.',
       'O que começou como uma viagem acabou se tornando meu lar. Hoje, tenho o privilégio de ajudar visitantes do mundo todo a registrar suas próprias memórias inesquecíveis em Nova York por meio de fotografias autênticas e atemporais.',
       'Acredito que as melhores fotos nascem de momentos reais, não de poses rígidas. Seja para celebrar uma ocasião especial, viajar com quem você ama ou simplesmente explorar a cidade, meu objetivo é fazer você se sentir à vontade, confiante e totalmente você.',
-      'Mais do que um ensaio fotográfico, quero que sua sessão faça parte da sua experiência em Nova York — divertida, leve e cheia de memórias que você vai guardar muito depois do fim da viagem.',
+      'Mais do que um ensaio fotográfico, quero que sua sessão faça parte da sua experiência em Nova York. Será um momento divertido, leve e cheio de memórias para guardar depois da viagem.',
     ],
     closing: 'Vamos contar juntos a sua história em Nova York.',
     facts: [
@@ -21,10 +21,10 @@ function About() {
     eyebrow: 'about · tainá borges',
     title: 'Hi, I’m Tainá!',
     paragraphs: [
-      'I was born in Brazil and first visited New York City in 2019. Like so many people, I came here as a visitor—and instantly fell in love with the city’s energy, diversity, and iconic charm.',
-      'What started as a trip eventually became home. Today, I have the privilege of helping visitors from around the world capture their own unforgettable New York memories through authentic, timeless photography.',
+      'I was born in Rio de Janeiro, Brazil, and first visited New York City in 2019. I arrived as a traveler and quickly fell in love with the city’s energy, diversity, and iconic beauty.',
+      'What started as a trip eventually became home. Today, I help visitors from around the world preserve their New York memories with natural, timeless photography in the city’s most meaningful locations.',
       'I believe the best photos come from real moments, not stiff poses. Whether you’re celebrating a special occasion, traveling with your loved ones, or simply exploring the city, my goal is to make you feel comfortable, confident, and completely yourself.',
-      'More than a photoshoot, I want your session to be part of your New York experience—fun, relaxed, and filled with memories you’ll treasure long after your trip is over.',
+      'Your New York photo session should feel like part of the trip itself. Expect a relaxed, enjoyable experience and photographs you will treasure long after you leave the city.',
     ],
     closing: 'Let’s tell your New York story together.',
     facts: [
