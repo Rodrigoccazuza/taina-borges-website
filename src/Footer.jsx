@@ -21,7 +21,7 @@ function Footer() {
             <FootCol title={isPortuguese ? 'informações' : 'info'} items={isPortuguese ? ['sobre', 'valores', 'contato', 'processo'] : ['about', 'pricing', 'contact', 'process']} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <Eyebrow dark withBar={false}>{isPortuguese ? 'encontre-me' : 'elsewhere'}</Eyebrow>
-              <FootLink icon="instagram" label="@tainaborgees" href="https://www.instagram.com/tainaborgees/" external />
+              <FootLink icon="instagram" label="@tainaborgesphoto" href="https://www.instagram.com/tainaborgesphoto/" external />
               <FootLink icon="mail" label="tainaborgesphoto@outlook.com" href="mailto:tainaborgesphoto@outlook.com" />
               <FootLink icon="message-circle" label="whatsapp" href="https://wa.me/15165592237" external />
             </div>

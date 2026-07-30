@@ -21,7 +21,7 @@ function Pricing({ openBooking }) {
       bestFor: 'viajantes solo · casais · memórias de viagem · pedidos surpresa',
     },
     {
-      id: 'signature', kicker: 'Signature · principal', name: 'The Complete New York Experience', price: '$395', priceNote: '(Preço introdutório)',
+      id: 'signature', kicker: 'Signature · principal', name: 'The Complete New York Experience', price: '$315',
       duration: '2 horas · até 2 locais', mark: 'S', markColor: '#7E4834', featured: true,
       includes: ['sessão fotográfica de 2 horas', 'até 2 locais em NYC', 'até 2 looks', '40 fotos editadas profissionalmente', 'galeria online privada', 'downloads digitais em alta resolução', 'recomendações personalizadas de locais antes da sessão'],
       delivery: '40 fotos editadas · entrega em 7 dias',
@@ -43,7 +43,7 @@ function Pricing({ openBooking }) {
       bestFor: 'solo travelers · couples · vacation memories · surprise proposals',
     },
     {
-      id: 'signature', kicker: 'Signature · main experience', name: 'The Complete New York Experience', price: '$395', priceNote: '(Introductory Price)',
+      id: 'signature', kicker: 'Signature · main experience', name: 'The Complete New York Experience', price: '$315',
       duration: '2 hours · up to 2 locations', mark: 'S', markColor: '#7E4834', featured: true,
       includes: ['2-hour photo session', 'up to 2 NYC locations', 'up to 2 outfits', '40 professionally edited photos', 'private online gallery', 'high-resolution digital downloads', 'personalized location recommendations before your session'],
       delivery: '40 edited photos · 7-day turnaround',
@@ -96,7 +96,7 @@ function PricingCard({ tier, ui, delay, openBooking }) {
           <div style={{ width: 52, height: 52, borderRadius: 99, background: tier.markColor, color: tier.id === 'story' ? '#F4EFE5' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: tier.mark.length > 1 ? 19 : 28, marginBottom: 24 }}>{tier.mark}</div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '.18em', textTransform: 'uppercase', color: muted, marginBottom: 9 }}>{tier.kicker}</div>
           <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 31, letterSpacing: '-.03em', lineHeight: 1, margin: '0 0 24px', maxWidth: '14ch' }}>{tier.name}</h3>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}><span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 43, letterSpacing: '-.04em', lineHeight: 1 }}>{tier.price}</span><span style={{ fontFamily: 'var(--font-sans)', fontSize: 13, fontStyle: 'italic', color: muted }}>{tier.priceNote}</span></div>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}><span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 43, letterSpacing: '-.04em', lineHeight: 1 }}>{tier.price}</span>{tier.priceNote && <span style={{ fontFamily: 'var(--font-sans)', fontSize: 13, fontStyle: 'italic', color: muted }}>{tier.priceNote}</span>}</div>
           <div style={{ marginTop: 12, fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: 15 }}>{tier.duration}</div>
         </div>
         <div style={{ height: 1, margin: '0 28px', background: featured ? 'rgba(232,226,212,.18)' : 'var(--line-strong)' }} />

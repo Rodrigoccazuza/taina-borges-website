@@ -89,7 +89,7 @@ function Contact({ openBooking }) {
               <div style={{ marginTop: 40, display: 'flex', flexDirection: 'column', gap: 14 }}>
                 <ContactLink icon="mail" href="mailto:tainaborgesphoto@outlook.com">tainaborgesphoto@outlook.com</ContactLink>
                 <ContactLink icon="message-circle" href="https://wa.me/15165592237" external>+1 (516) 559-2237 · whatsapp</ContactLink>
-                <ContactLink icon="instagram" href="https://www.instagram.com/tainaborgees/" external>@tainaborgees</ContactLink>
+                <ContactLink icon="instagram" href="https://www.instagram.com/tainaborgesphoto/" external>@tainaborgesphoto</ContactLink>
               </div>
             </Reveal>
 
