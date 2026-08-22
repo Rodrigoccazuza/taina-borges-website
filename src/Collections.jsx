@@ -1,8 +1,6 @@
 /* global React, Eyebrow, Reveal, Icon */
-const { useState, useEffect, useRef } = React;
+const { useState } = React;
 
-// "Collections" — a curated set of recent shoots, presented in the reference's style:
-// big rounded photo cards with the title bottom-left, a chevron at the right edge.
 function Collections({ onOpenPhoto }) {
   const items = window.TB_COLLECTIONS || [];
   const [idx, setIdx] = useState(0);
@@ -16,7 +14,7 @@ function Collections({ onOpenPhoto }) {
       background: 'var(--limestone)', padding: '120px 32px',
     }}>
       <div style={{ maxWidth: 1440, margin: '0 auto' }}>
-        <Reveal><Eyebrow>collections · selected sets</Eyebrow></Reveal>
+        <Reveal><Eyebrow>collections · selected New York photography sets</Eyebrow></Reveal>
         <Reveal delay={80}>
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24, marginTop: 14, marginBottom: 48 }}>
             <h2 style={{
@@ -24,13 +22,13 @@ function Collections({ onOpenPhoto }) {
               fontSize: 'clamp(48px, 6vw, 100px)', lineHeight: 0.92, letterSpacing: '-0.045em',
               margin: 0, color: 'var(--asphalt)', maxInlineSize: '14ch', textWrap: 'balance',
             }}>
-              recent shoots<span style={{ color: 'var(--taxi)' }}>.</span>
+              recent New York shoots<span style={{ color: 'var(--taxi)' }}>.</span>
             </h2>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               <a href="Projects.html" style={{
                 fontFamily: 'var(--font-sans)', fontSize: 14, color: 'var(--brick)', textDecoration: 'none',
                 display: 'inline-flex', alignItems: 'center', gap: 6, borderBottom: '1px solid currentColor', paddingBottom: 2,
-              }}>view all projects <Icon name="arrow-up-right" size={14} /></a>
+              }}>view all photography projects <Icon name="arrow-up-right" size={14} /></a>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--fg-3)' }}>
                 {String(idx + 1).padStart(2, '0')} to {String(Math.min(items.length, idx + 4)).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
               </span>
@@ -58,7 +56,7 @@ function Collections({ onOpenPhoto }) {
   );
 }
 
-function CollectionCard({ collection, delay, onOpenPhoto }) {
+function CollectionCard({ collection, delay }) {
   const [hover, setHover] = useState(false);
   return (
     <Reveal delay={delay}>
@@ -77,21 +75,26 @@ function CollectionCard({ collection, delay, onOpenPhoto }) {
           transition: 'box-shadow 320ms var(--ease-out)',
         }}
       >
-        <div className="tb-collection-image" style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: `url(${collection.src})`,
-          backgroundSize: 'cover', backgroundPosition: 'center',
-          transform: hover ? 'scale(1.05)' : 'scale(1.0)',
-          transition: 'transform 900ms var(--ease-out)',
-          filter: 'saturate(0.97)',
-        }}/>
-        {/* Bottom protection gradient for the title */}
+        <img
+          className="tb-collection-image"
+          src={collection.src}
+          alt={`${collection.title}, ${collection.location}, New York photography collection`}
+          loading="lazy"
+          decoding="async"
+          width="1600"
+          height="1100"
+          style={{
+            position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center',
+            transform: hover ? 'scale(1.05)' : 'scale(1)',
+            transition: 'transform 900ms var(--ease-out)',
+            filter: 'saturate(0.97)',
+          }}
+        />
         <div aria-hidden style={{
           position: 'absolute', inset: 0,
           background: 'linear-gradient(180deg, rgba(22,21,19,0) 35%, rgba(22,21,19,0.55) 80%, rgba(22,21,19,0.8) 100%)',
           pointerEvents: 'none',
         }}/>
-        {/* Title — big, bottom-left like the reference */}
         <div style={{
           position: 'absolute', left: 26, right: 26, bottom: 22,
           display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 18,
@@ -137,6 +140,7 @@ function NavBtn({ icon, onClick, disabled }) {
     <button
       onClick={onClick}
       disabled={disabled}
+      aria-label={icon === 'chevron-left' ? 'Previous collections' : 'Next collections'}
       style={{
         width: 40, height: 40, borderRadius: 999,
         border: '1px solid var(--line-strong)',
