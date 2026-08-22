@@ -1,0 +1,73 @@
+name: Optimize Taina Site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/optimize-site.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Patch runtime loading and SEO support
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import re
+
+          replacements = {
+            'index.html': '''  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" crossorigin="anonymous"></script>\n  <script defer src="assets/app-home.min.js?v=20260822-performance1"></script>''',
+            'Projects.html': '''  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" crossorigin="anonymous"></script>\n  <script defer src="assets/app-projects.min.js?v=20260822-performance1"></script>'''
+          }
+
+          for filename, new_scripts in replacements.items():
+              path = Path(filename)
+              text = path.read_text()
+              text = text.replace("script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com", "script-src 'self' 'unsafe-inline' https://unpkg.com")
+              pattern = re.compile(r'''  <script src="https://unpkg\.com/react@18\.3\.1/umd/react\.production\.min\.js"[\s\S]*?  </script>\n\n</body>''')
+              if not pattern.search(text):
+                  raise SystemExit(f'Runtime block not found in {filename}')
+              text = pattern.sub(new_scripts + '\n\n</body>', text, count=1)
+              text = text.replace('<link rel="preconnect" href="https://unpkg.com" crossorigin />', '<link rel="preconnect" href="https://unpkg.com" crossorigin />\n<link rel="dns-prefetch" href="//unpkg.com" />')
+              text = text.replace('</style>\n<link rel="stylesheet" href="responsive.css', '''  /* Performance containment for sections below the initial viewport. */
+  #about, #collections, #testimonials, #work, #pricing, #contact {
+    content-visibility: auto;
+    contain-intrinsic-size: 900px;
+  }
+  @media (max-width: 720px) {
+    .tb-hero-image { animation: none !important; will-change: auto !important; }
+  }
+</style>
+<link rel="stylesheet" href="responsive.css''', 1)
+              path.write_text(text)
+
+          sitemap = Path('sitemap.xml').read_text()
+          sitemap = re.sub(r'<lastmod>[^<]+</lastmod>', '<lastmod>2026-08-22</lastmod>', sitemap)
+          Path('sitemap.xml').write_text(sitemap)
+
+          robots = Path('robots.txt').read_text().rstrip() + '\n\n# Public photography site. Administrative or build-only paths are not linked for crawling.\n'
+          Path('robots.txt').write_text(robots)
+          PY
+      - name: Install build dependencies
+        run: npm install
+      - name: Build optimized client bundles
+        run: npm run build
+      - name: Commit optimized production assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html Projects.html robots.txt sitemap.xml package-lock.json assets/app-home.min.js assets/app-projects.min.js
+          git commit -m "Optimize runtime loading links and search metadata"
+          git push origin main
