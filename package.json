@@ -1,0 +1,13 @@
+{
+  "name": "taina-borges-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tainá Borges Photography website",
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node -e \"console.log('Static website: serve the project root with your hosting provider.')\""
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
