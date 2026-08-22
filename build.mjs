@@ -57,7 +57,7 @@ async function wrappedSources(files) {
 }
 
 async function bundle(name, files, appName) {
-  const source = `${sharedPrelude}${await wrappedSources(files)}\n(() => {\n  if (globalThis.lucide) globalThis.lucide.createIcons();\n  const root = document.getElementById('root');\n  if (!root || !globalThis.${appName} || !globalThis.LanguageProvider) return;\n  globalThis.ReactDOM.createRoot(root).render(\n    globalThis.React.createElement(\n      globalThis.LanguageProvider,\n      null,\n      globalThis.React.createElement(globalThis.${appName})\n    )\n  );\n})();`;
+  const source = `${sharedPrelude}${await wrappedSources(files)}\n(() => {\n  if (globalThis.lucide) globalThis.lucide.createIcons();\n  const mountNode = document.getElementById('root');\n  if (!mountNode || !globalThis.${appName} || !globalThis.LanguageProvider) return;\n  globalThis.ReactDOM.createRoot(mountNode).render(\n    globalThis.React.createElement(\n      globalThis.LanguageProvider,\n      null,\n      globalThis.React.createElement(globalThis.${appName})\n    )\n  );\n})();`;
 
   await build({
     stdin: {
@@ -73,6 +73,31 @@ async function bundle(name, files, appName) {
     format: 'iife',
     outfile: path.join(assetDir, `${name}.min.js`)
   });
+}
+
+async function optimizeHtml(filename, bundleName) {
+  const file = path.join(out, filename);
+  let html = await readFile(file, 'utf8');
+
+  html = html.replace(
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com",
+    "script-src 'self' 'unsafe-inline' https://unpkg.com"
+  );
+
+  const runtimeBlock = /  <script src="https:\/\/unpkg\.com\/react@18\.3\.1\/umd\/react\.production\.min\.js"[\s\S]*?  <\/script>\n\n<\/body>/;
+  const replacement = `  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" crossorigin="anonymous"></script>\n  <script defer src="assets/${bundleName}.min.js?v=20260822-performance1"></script>\n\n</body>`;
+
+  if (!runtimeBlock.test(html)) {
+    throw new Error(`Could not find runtime script block in ${filename}`);
+  }
+  html = html.replace(runtimeBlock, replacement);
+
+  html = html.replace(
+    '</style>\n<link rel="stylesheet" href="responsive.css',
+    `  /* Skip expensive rendering work for sections well below the initial viewport. */\n  #about, #collections, #testimonials, #work, #pricing, #contact {\n    content-visibility: auto;\n    contain-intrinsic-size: 900px;\n  }\n  @media (max-width: 720px) {\n    .tb-hero-image { animation: none !important; will-change: auto !important; }\n  }\n</style>\n<link rel="stylesheet" href="responsive.css`
+  );
+
+  await writeFile(file, html);
 }
 
 await mkdir(assetDir, { recursive: true });
@@ -101,6 +126,11 @@ for (const entry of entries) {
     await cp(source, path.join(out, entry), { recursive: true });
   }
 }
+
+await Promise.all([
+  optimizeHtml('index.html', 'app-home'),
+  optimizeHtml('Projects.html', 'app-projects')
+]);
 
 await writeFile(path.join(out, '.nojekyll'), '');
 console.log(`Static site built successfully in ${out}`);
