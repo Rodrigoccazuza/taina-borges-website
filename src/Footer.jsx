@@ -1,6 +1,29 @@
 /* global React, Icon, Eyebrow, Reveal, TBMark, useLanguage */
 function Footer() {
   const { isPortuguese } = useLanguage();
+  const browseItems = isPortuguese ? [
+    { label: 'retratos', href: 'Projects.html' },
+    { label: 'casais', href: 'Projects.html' },
+    { label: 'famílias', href: 'Projects.html' },
+    { label: 'coleções', href: '#collections' },
+  ] : [
+    { label: 'portraits', href: 'Projects.html' },
+    { label: 'couples', href: 'Projects.html' },
+    { label: 'families', href: 'Projects.html' },
+    { label: 'collections', href: '#collections' },
+  ];
+  const infoItems = isPortuguese ? [
+    { label: 'sobre', href: '#about' },
+    { label: 'valores', href: '#pricing' },
+    { label: 'depoimentos', href: '#testimonials' },
+    { label: 'contato', href: '#contact' },
+  ] : [
+    { label: 'about', href: '#about' },
+    { label: 'pricing', href: '#pricing' },
+    { label: 'kind words', href: '#testimonials' },
+    { label: 'contact', href: '#contact' },
+  ];
+
   return (
     <footer style={{
       background: 'transparent', color: 'var(--limestone)',
@@ -12,13 +35,13 @@ function Footer() {
         <Reveal>
           <div className="tb-foot-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 48, paddingBottom: 64, borderBottom: '1px solid rgba(232,226,212,0.14)' }}>
             <div>
-              <img className="tb-footer-logo" src="assets/brand/footer-logo.png" alt="Tainá Borges Photography" style={{ width: 'min(100%, 390px)', height: 'auto', display: 'block', marginBottom: 22 }} />
+              <img className="tb-footer-logo" src="assets/brand/footer-logo.png" alt="Tainá Borges Photography" loading="lazy" decoding="async" style={{ width: 'min(100%, 390px)', height: 'auto', display: 'block', marginBottom: 22 }} />
               <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: 16, lineHeight: 1.5, color: '#C9C2B3', marginTop: 0, maxInlineSize: '40ch' }}>
                 {isPortuguese ? 'fotógrafa em nova york. experiências leves, autênticas e cheias de memórias.' : 'new york photographer. relaxed, authentic experiences and memories that last.'}
               </p>
             </div>
-            <FootCol title={isPortuguese ? 'explorar' : 'browse'} items={isPortuguese ? ['retratos', 'casais', 'famílias', 'coleções'] : ['portraits', 'couples', 'families', 'collections']} />
-            <FootCol title={isPortuguese ? 'informações' : 'info'} items={isPortuguese ? ['sobre', 'valores', 'contato', 'processo'] : ['about', 'pricing', 'contact', 'process']} />
+            <FootCol title={isPortuguese ? 'explorar' : 'browse'} items={browseItems} />
+            <FootCol title={isPortuguese ? 'informações' : 'info'} items={infoItems} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <Eyebrow dark withBar={false}>{isPortuguese ? 'encontre-me' : 'elsewhere'}</Eyebrow>
               <FootLink icon="instagram" label="@tainaborgesphoto" href="https://www.instagram.com/tainaborgesphoto/" external />
@@ -50,11 +73,11 @@ function FootCol({ title, items }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       <Eyebrow dark withBar={false}>{title}</Eyebrow>
-      {items.map(x => (
-        <a key={x} href="#" style={{ color: '#C9C2B3', fontFamily: 'var(--font-sans)', fontSize: 14, textDecoration: 'none', padding: '2px 0', width: 'fit-content', borderBottom: '1px solid transparent', transition: 'border-color 180ms var(--ease-out), color 180ms var(--ease-out)' }}
+      {items.map(({ label, href }) => (
+        <a key={`${label}-${href}`} href={href} style={{ color: '#C9C2B3', fontFamily: 'var(--font-sans)', fontSize: 14, textDecoration: 'none', padding: '2px 0', width: 'fit-content', borderBottom: '1px solid transparent', transition: 'border-color 180ms var(--ease-out), color 180ms var(--ease-out)' }}
           onMouseEnter={e => { e.currentTarget.style.color = 'var(--limestone)'; e.currentTarget.style.borderBottomColor = 'var(--taxi)'; }}
           onMouseLeave={e => { e.currentTarget.style.color = '#C9C2B3'; e.currentTarget.style.borderBottomColor = 'transparent'; }}
-        >{x}</a>
+        >{label}</a>
       ))}
     </div>
   );
