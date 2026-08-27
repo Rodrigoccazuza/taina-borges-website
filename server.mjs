@@ -58,6 +58,15 @@ async function calendly(endpoint, options = {}) {
   return data;
 }
 
+function eventTypePath(uri) {
+  try {
+    const parsed = new URL(uri);
+    return parsed.pathname;
+  } catch {
+    return null;
+  }
+}
+
 let accountCache = null;
 let accountCacheAt = 0;
 async function getAccountData() {
@@ -76,15 +85,30 @@ async function getAccountData() {
   }
 
   const pinned = process.env.CALENDLY_EVENT_TYPE_URI?.trim();
-  let eventType = pinned ? activeTypes.find(t => t.uri === pinned) : null;
-  if (pinned && !eventType) {
+  let selectedType = pinned ? activeTypes.find(t => t.uri === pinned) : null;
+  if (pinned && !selectedType) {
     const err = new Error('CALENDLY_EVENT_TYPE_URI does not match any active event type available to this token.');
     err.code = 'INVALID_PINNED_EVENT_TYPE';
     throw err;
   }
-  if (!eventType) eventType = activeTypes.find(t => Number(t.duration) === 20) || activeTypes[0];
+  if (!selectedType) selectedType = activeTypes.find(t => Number(t.duration) === 20) || activeTypes[0];
 
-  accountCache = { user: me.resource, eventTypes: activeTypes, eventType };
+  // Fetch the full event type resource instead of relying on the abbreviated
+  // list response. This gives us the exact configured location and question
+  // metadata Calendly expects when POST /invitees is called.
+  let eventType = selectedType;
+  const detailPath = eventTypePath(selectedType.uri);
+  if (detailPath) {
+    try {
+      const details = await calendly(detailPath);
+      if (details?.resource?.uri) eventType = details.resource;
+    } catch (err) {
+      console.warn('[Calendly API] Could not fetch full event type details; using list response.', err.message);
+    }
+  }
+
+  const mergedTypes = activeTypes.map(t => t.uri === eventType.uri ? eventType : t);
+  accountCache = { user: me.resource, eventTypes: mergedTypes, eventType };
   accountCacheAt = Date.now();
   return accountCache;
 }
@@ -95,7 +119,10 @@ function publicEventType(eventType) {
     name: eventType.name,
     duration: eventType.duration,
     scheduling_url: eventType.scheduling_url || eventType.scheduling_uri || null,
-    locations: Array.isArray(eventType.locations) ? eventType.locations.map(({ kind, location }) => ({ kind, location: location || null })) : []
+    locations: Array.isArray(eventType.locations) ? eventType.locations.map(({ kind, location }) => ({ kind, location: location || null })) : [],
+    required_questions: Array.isArray(eventType.custom_questions)
+      ? eventType.custom_questions.filter(q => q?.enabled !== false && q?.required).map(q => ({ name: q.name || q.question || null, position: q.position ?? null, type: q.type || null }))
+      : []
   };
 }
 
@@ -124,15 +151,27 @@ function validEmail(value) {
   return typeof value === 'string' && /^\S+@\S+\.\S+$/.test(value) && value.length <= 160;
 }
 
+function splitName(name) {
+  const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+  return {
+    firstName: parts[0] || name,
+    lastName: parts.length > 1 ? parts.slice(1).join(' ') : ''
+  };
+}
+
 function chooseLocation(eventType) {
   const locations = Array.isArray(eventType.locations) ? eventType.locations.filter(Boolean) : [];
   if (!locations.length) return null;
-  if (locations.length > 1) {
+
+  // Prefer a provider-managed conferencing location when several are configured.
+  const automatic = locations.find(item => ['zoom_conference', 'google_conference', 'microsoft_teams_conference'].includes(item?.kind));
+  const item = automatic || (locations.length === 1 ? locations[0] : null);
+
+  if (!item) {
     const err = new Error('This Calendly event type offers multiple locations and needs a location choice.');
     err.code = 'LOCATION_SELECTION_REQUIRED';
     throw err;
   }
-  const item = locations[0];
   if (!item?.kind) return null;
   if (['ask_invitee', 'outbound_call'].includes(item.kind)) {
     const err = new Error('This Calendly event type needs location information from the invitee.');
@@ -159,9 +198,6 @@ async function getAvailableTimes(eventTypeUri, days) {
     const data = await getAvailableTimesWindow(eventTypeUri, start, end);
     return Array.isArray(data?.collection) ? data.collection : [];
   } catch (err) {
-    // Calendly historically capped this endpoint at 7 days. Some environments
-    // can still return Invalid Argument for larger windows, so fall back to
-    // compatible 7-day chunks instead of failing the entire calendar.
     if (err.status !== 400 || days <= 7) throw err;
 
     const slots = [];
@@ -202,13 +238,36 @@ async function handleBook(req, res) {
     return json(res, 400, { error: 'INVALID_BOOKING_DATA', message: 'Name, valid email, and start time are required.' });
   }
 
+  const requiredQuestions = Array.isArray(eventType.custom_questions)
+    ? eventType.custom_questions.filter(q => q?.enabled !== false && q?.required)
+    : [];
+  if (requiredQuestions.length) {
+    return json(res, 400, {
+      error: 'CALENDLY_REQUIRED_QUESTIONS',
+      message: 'This Calendly event type has required booking questions that must be added to the website form.',
+      questions: requiredQuestions.map(q => ({ name: q.name || q.question || 'Required question', position: q.position ?? null, type: q.type || null }))
+    });
+  }
+
   const location = chooseLocation(eventType);
+  const { firstName, lastName } = splitName(name);
+
+  // Keep the payload intentionally minimal and aligned with Calendly's
+  // Scheduling API examples. Optional tracking fields were removed because
+  // they are not needed to create the event and can trigger validation on
+  // stricter account configurations.
   const payload = {
     event_type: eventType.uri,
     start_time: new Date(startTime).toISOString(),
-    invitee: { name, email, timezone },
-    tracking: { utm_source: 'taina-borges-website', utm_medium: 'website', utm_campaign: 'booking-modal' }
+    invitee: {
+      name,
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      timezone
+    }
   };
+  if (!lastName) delete payload.invitee.last_name;
   if (location) payload.location = location;
 
   try {
@@ -224,6 +283,29 @@ async function handleBook(req, res) {
   } catch (err) {
     if (err.status === 409 || err.status === 422) {
       return json(res, 409, { error: 'SLOT_UNAVAILABLE', message: 'That time is no longer available. Please choose another time.' });
+    }
+    if (err.status === 400) {
+      console.error('[Calendly booking validation]', JSON.stringify({
+        event_type: eventType.uri,
+        start_time: payload.start_time,
+        timezone,
+        location: payload.location || null,
+        calendly: err.details || null
+      }));
+      return json(res, 400, {
+        error: 'CALENDLY_VALIDATION_ERROR',
+        message: err.message || 'Calendly rejected the booking details.',
+        calendly: err?.details && typeof err.details === 'object' ? {
+          title: err.details.title || null,
+          message: err.details.message || null,
+          details: err.details.details || null
+        } : null,
+        booking_context: {
+          event_type: publicEventType(eventType),
+          location: payload.location || null,
+          timezone
+        }
+      });
     }
     throw err;
   }
