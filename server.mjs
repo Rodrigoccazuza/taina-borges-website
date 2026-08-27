@@ -65,17 +65,23 @@ async function getAccountData() {
   const me = await calendly('/users/me');
   const userUri = me?.resource?.uri;
   if (!userUri) throw new Error('Calendly did not return a user URI.');
+
   const params = new URLSearchParams({ user: userUri, active: 'true', count: '100' });
   const types = await calendly(`/event_types?${params}`);
   const activeTypes = Array.isArray(types?.collection) ? types.collection.filter(t => t.active !== false) : [];
   if (!activeTypes.length) {
-    const err = new Error('No active Calendly event type was found.');
+    const err = new Error('No active Calendly event type was found for this token.');
     err.code = 'NO_ACTIVE_EVENT_TYPE';
     throw err;
   }
 
   const pinned = process.env.CALENDLY_EVENT_TYPE_URI?.trim();
   let eventType = pinned ? activeTypes.find(t => t.uri === pinned) : null;
+  if (pinned && !eventType) {
+    const err = new Error('CALENDLY_EVENT_TYPE_URI does not match any active event type available to this token.');
+    err.code = 'INVALID_PINNED_EVENT_TYPE';
+    throw err;
+  }
   if (!eventType) eventType = activeTypes.find(t => Number(t.duration) === 20) || activeTypes[0];
 
   accountCache = { user: me.resource, eventTypes: activeTypes, eventType };
@@ -136,14 +142,45 @@ function chooseLocation(eventType) {
   return { kind: item.kind, ...(item.location ? { location: item.location } : {}) };
 }
 
+async function getAvailableTimesWindow(eventTypeUri, start, end) {
+  const params = new URLSearchParams({
+    event_type: eventTypeUri,
+    start_time: start.toISOString(),
+    end_time: end.toISOString()
+  });
+  return calendly(`/event_type_available_times?${params}`);
+}
+
+async function getAvailableTimes(eventTypeUri, days) {
+  const start = new Date(Date.now() + 5 * 60 * 1000);
+  const end = new Date(start.getTime() + days * 24 * 60 * 60 * 1000);
+
+  try {
+    const data = await getAvailableTimesWindow(eventTypeUri, start, end);
+    return Array.isArray(data?.collection) ? data.collection : [];
+  } catch (err) {
+    // Calendly historically capped this endpoint at 7 days. Some environments
+    // can still return Invalid Argument for larger windows, so fall back to
+    // compatible 7-day chunks instead of failing the entire calendar.
+    if (err.status !== 400 || days <= 7) throw err;
+
+    const slots = [];
+    let cursor = new Date(start);
+    while (cursor < end) {
+      const chunkEnd = new Date(Math.min(end.getTime(), cursor.getTime() + 7 * 24 * 60 * 60 * 1000 - 1000));
+      const data = await getAvailableTimesWindow(eventTypeUri, cursor, chunkEnd);
+      if (Array.isArray(data?.collection)) slots.push(...data.collection);
+      cursor = new Date(chunkEnd.getTime() + 1000);
+    }
+    return slots;
+  }
+}
+
 async function handleAvailability(req, res, url) {
   const { eventType } = await getAccountData();
   const requestedDays = Math.max(1, Math.min(31, Number(url.searchParams.get('days') || 21)));
-  const start = new Date(Date.now() + 60 * 1000);
-  const end = new Date(start.getTime() + requestedDays * 24 * 60 * 60 * 1000);
-  const params = new URLSearchParams({ event_type: eventType.uri, start_time: start.toISOString(), end_time: end.toISOString() });
-  const data = await calendly(`/event_type_available_times?${params}`);
-  const slots = (data?.collection || []).map(slot => ({
+  const rawSlots = await getAvailableTimes(eventType.uri, requestedDays);
+  const slots = rawSlots.map(slot => ({
     start_time: slot.start_time,
     status: slot.status || 'available',
     invitees_remaining: slot.invitees_remaining ?? null
@@ -161,7 +198,6 @@ async function handleBook(req, res) {
   const email = String(body.email || '').trim().slice(0, 160);
   const startTime = String(body.start_time || '').trim();
   const timezone = String(body.timezone || NEW_YORK_TZ).trim().slice(0, 100);
-  const note = String(body.note || '').trim().slice(0, 2000);
   if (!name || !validEmail(email) || !startTime || Number.isNaN(Date.parse(startTime))) {
     return json(res, 400, { error: 'INVALID_BOOKING_DATA', message: 'Name, valid email, and start time are required.' });
   }
@@ -174,7 +210,6 @@ async function handleBook(req, res) {
     tracking: { utm_source: 'taina-borges-website', utm_medium: 'website', utm_campaign: 'booking-modal' }
   };
   if (location) payload.location = location;
-  if (note) payload.questions_and_answers = [{ question: 'Anything you want me to know first?', answer: note, position: 0 }];
 
   try {
     const booking = await calendly('/invitees', { method: 'POST', body: JSON.stringify(payload) });
@@ -197,18 +232,31 @@ async function handleBook(req, res) {
 async function handleApi(req, res, url) {
   try {
     if (req.method === 'GET' && url.pathname === '/api/calendly/health') {
-      const { eventType } = await getAccountData();
-      return json(res, 200, { ok: true, configured: true, event_type: publicEventType(eventType) });
+      const { user, eventType, eventTypes } = await getAccountData();
+      return json(res, 200, {
+        ok: true,
+        configured: true,
+        user: { uri: user?.uri || null, name: user?.name || null, email: user?.email || null },
+        event_type_count: eventTypes.length,
+        event_type: publicEventType(eventType)
+      });
     }
     if (req.method === 'GET' && url.pathname === '/api/calendly/availability') return await handleAvailability(req, res, url);
     if (req.method === 'POST' && url.pathname === '/api/calendly/book') return await handleBook(req, res);
     return json(res, 404, { error: 'NOT_FOUND' });
   } catch (err) {
-    console.error('[Calendly API]', err.code || err.status || 'ERROR', err.message);
+    console.error('[Calendly API]', err.code || err.status || 'ERROR', err.message, err.details || '');
     const status = err.status && err.status >= 400 && err.status < 600 ? err.status : 502;
+    const safeDetails = err?.details && typeof err.details === 'object' ? {
+      title: err.details.title || null,
+      message: err.details.message || null,
+      details: err.details.details || null
+    } : null;
     return json(res, status, {
       error: err.code || 'CALENDLY_API_ERROR',
-      message: err.code === 'CALENDLY_NOT_CONFIGURED' ? 'Scheduling is temporarily unavailable.' : err.message
+      message: err.code === 'CALENDLY_NOT_CONFIGURED' ? 'Scheduling is temporarily unavailable because CALENDLY_TOKEN is missing.' : err.message,
+      calendly_status: err.status || null,
+      calendly: safeDetails
     });
   }
 }
